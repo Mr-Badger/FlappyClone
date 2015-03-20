@@ -1,0 +1,27 @@
+{
+  "name": "FlappyClone",
+  "version": "0.0.1",
+  "authors": [
+    "Carl",
+    "Johann",
+    "Sigtryggur"
+  ],
+  "directory": "~/app/components/",
+  "description": "Flappy Birds clone",
+  "main": "index.html",
+  "keywords": [
+    "Flappy Bird"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}

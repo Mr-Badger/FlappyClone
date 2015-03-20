@@ -1,0 +1,30 @@
+{
+  "name": "WEPO-Project-4",
+  "version": "1.0.0",
+  "description": "Flappy Birds clone",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kvurit/FlappyClone"
+  },
+  "keywords": [
+    "Flappy Birds",
+    "Clone"
+  ],
+  "author": "Carl, Johann, Sigtryggur",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kvurit/FlappyClone/issues"
+  },
+  "homepage": "https://github.com/kvurit/FlappyClone",
+  "devDependencies": {
+    "autoprefixer-core": "^5.1.7",
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-cssmin": "^0.12.1",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-less": "^1.0.0",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-postcss": "^0.3.0"
+  }
+}
