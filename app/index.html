@@ -7,14 +7,61 @@
 	<meta name="description" content="">
 	<meta name="authors" content="Jóhann Örn Bjarkason, Sigtryggur Ómarsson and Carl Andreas Sveinsson">
 
-	<title>FlappyClone</title>
+	<title>Flappy Clone</title>
+	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lora'>
 	<link rel="stylesheet" href="dist/css/main.min.css">
 	<script src="src/js/app.js"></script>
 	<!--script src="dist/js/build.min.js"></script-->
 </head>
 <body>
 	<div class="container">
-		Hang on...
+		<h1>Flappy Clone</h1>
+		<div id="game">
+			<div id="bird">
+				<div class="eye"></div>
+				<div class="mouth"></div>
+				<div class="wings"></div>
+			</div>
+			<div id="cloudlayer">
+				<div class="cloud">
+					<div class="puff">
+						<div class="pbody"></div>
+						<div class="pstroke"></div>
+					</div>
+					<div class="puff">
+						<div class="pbody"></div>
+						<div class="pstroke"></div>
+					</div>
+					<div class="puff">
+						<div class="pbody"></div>
+						<div class="pstroke"></div>
+					</div>
+					<div class="puff">
+						<div class="pbody"></div>
+						<div class="pstroke"></div>
+					</div>
+				</div>
+
+				<div class="cloud" style="left: 20%; top: 15%">
+					<div class="puff">
+						<div class="pbody"></div>
+						<div class="pstroke"></div>
+					</div>
+					<div class="puff">
+						<div class="pbody"></div>
+						<div class="pstroke"></div>
+					</div>
+					<div class="puff">
+						<div class="pbody"></div>
+						<div class="pstroke"></div>
+					</div>
+				</div>
+			</div>
+			<div id="objects">
+				<div class="ground"></div>
+				<div class="pipe"></div>
+			</div>
+		</div>
 	</div>
 
 	<script src="components/jquery/dist/jquery.min.js"></script>

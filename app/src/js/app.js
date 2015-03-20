@@ -1,1 +1,5 @@
-var Evaluator = 10;
+
+
+var cloudgen = function() {
+
+};
