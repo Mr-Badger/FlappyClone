@@ -18,22 +18,26 @@ module.exports = function(grunt) {
         globals: {
           _:       false,
           jQuery:  false,
-          angular: false,
-          moment:  false,
+          window:  false,
           console: false,
-          $:       false,
-          io:      false
+          $:       false
         }
        }
     },
     watch: {
       scripts: {
-        files: '**/*.js',
-        tasks: ['jshint'],
+        files: 'app/src/**/*.js',
+        tasks: ['jshint', 'concat', 'uglify'],
+        options: {
+          livereload: 1337,
+        },
       },
       css: {
-        files: ['**/*.less'],
+        files: ['app/src/**/*.less'],
         tasks: ['less', 'postcss', 'cssmin'],
+        options: {
+          livereload: 1337,
+        },
       },
     },
     concat: {
@@ -41,7 +45,7 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        src: ['app/src/js/app.js', 'app/src/js/*.js'],
+        src: ['app/src/js/*.js'],
         dest: 'app/dist/js/build.js',
       },
     },

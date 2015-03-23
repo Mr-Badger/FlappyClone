@@ -2,6 +2,7 @@
 @bgColor: rgb(39, 43, 48);
 @gameBGColor: rgb(112, 197, 206);
 
+@gameEm: 10px;
 @gameRatio: 4/3;
 @gameWidth: 480px;
 
@@ -26,10 +27,9 @@ body {
 }
 
 #game {
-	user-select: none;
+	font-size: @gameEm;
 	position: relative;
 	overflow: hidden;
-	margin: 0 auto;
 	width: @gameWidth;
 	height: @gameWidth * @gameRatio;
 	background-color: @gameBGColor;
@@ -137,7 +137,7 @@ body {
 		width: 110%;
 		height: 16px;
 		left: 0;
-		top: 0;
+		box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
 		background: linear-gradient(125deg,
 									@grassC 0%, @grassC 30%,
 									lighten(@grassC, 15%) 40%, lighten(@grassC, 15%) 65%,
@@ -210,11 +210,6 @@ body {
 
 	.puff {
 		position: relative;
-
-		& > div {
-			position: absolute;
-			border-radius: 50%;
-		}
 
 		&:before, &:after {
 			content: '';
