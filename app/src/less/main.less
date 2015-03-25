@@ -67,9 +67,6 @@ body {
 	border-radius: 50%;
 	background: linear-gradient(to bottom, #ffbf27 0%, #ffbf27 30%, #e48116 100%);
 
-	//animation: birdy 0.8s infinite;
-	//animation-timing-function: linear;
-
 	.eye {
 		.absPos(2.4em; 0.2em; 2.2em; 2.0em);
 		border-radius: 40% 60% 0;
@@ -112,8 +109,17 @@ body {
 
 		transform-origin: top center;
 		transform: rotateX(60deg);
+	}
 
-		&.flapping {
+	/* STATES */
+
+	&.floating {
+		animation: floating 0.8s infinite;
+	}
+
+	&.flying {
+		.wings {
+			animation: flapping 0.35s infinite;
 		}
 	}
 }
@@ -155,7 +161,7 @@ body {
 @pipeGap: 15em;
 @pipeHeight: 40em;
 
-.pipes {
+.pipeSet {
 	position: relative;
 	height: 100%;
 	top: 20em;
@@ -332,21 +338,21 @@ body {
 ------------------------------------------*/
 
 @keyframes flapping {
-	0%   { transform: rotate3d(1,0,0,60deg) }
-	40%  { transform: rotate3d(1,0,0,-160deg) }
-	90%  { transform: rotate3d(1,0,0,40deg) }
-	100% { transform: rotate3d(1,0,0,60deg) }
+	0%   { transform: rotateX(60deg) }
+	40%  { transform: rotateX(-160deg) }
+	90%  { transform: rotateX(40deg) }
+	100% { transform: rotateX(60deg) }
 }
 
-@keyframes birdy {
-	0%  { transform: translateY(0) }
-	50% { transform: translateY(14px) }
-	to  { transform: translateY(0) }
+@keyframes floating {
+	0%  { transform: translate3d(20em, 25em, 0) }
+	50% { transform: translate3d(20em, 26.4em, 0) }
+	to  { transform: translate3d(20em, 25em, 0) }
 }
 
 @keyframes groundslide {
 	0% { transform: translateX(0) }
-	to { transform: translateX(-30px) }
+	to { transform: translateX(-3em) }
 }
 
 @keyframes pipeslide {

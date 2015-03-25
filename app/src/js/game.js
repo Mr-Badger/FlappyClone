@@ -2,32 +2,24 @@
 window.Game = (function() {
 	'use strict';
 
-	/**
-	 * Main game class.
-	 * @param {Element} el jQuery element containing the game.
-	 * @constructor
-	 */
 	var Game = function(el) {
 		this.el = el;
 		this.player = new window.Player(this.el.find('#bird'), this);
+		this.menu = new window.Menu(this.el.find('#gameover'));
 		this.isPlaying = false;
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
 	};
 
-	/**
-	 * Some shared constants.
-	 */
-	Game.prototype.WORLD_WIDTH = 102.4;
-	Game.prototype.WORLD_HEIGHT = 57.6;
+	Game.prototype.WORLD_WIDTH = 48.0;
+	Game.prototype.WORLD_HEIGHT = 64.0;
 
 	/**
 	 * Runs every frame. Calculates a delta and allows each game
 	 * entity to update itself.
 	 */
 	Game.prototype.onFrame = function() {
-		// Check if the game loop should stop.
 		if (!this.isPlaying) {
 			return;
 		}
@@ -43,9 +35,6 @@ window.Game = (function() {
 		window.requestAnimationFrame(this.onFrame);
 	};
 
-	/**
-	 * Starts a new game.
-	 */
 	Game.prototype.start = function() {
 		this.reset();
 
@@ -55,32 +44,18 @@ window.Game = (function() {
 		this.isPlaying = true;
 	};
 
-	/**
-	 * Resets the state of the game so a new game can be started.
-	 */
 	Game.prototype.reset = function() {
 		this.player.reset();
 	};
 
-	/**
-	 * Signals that the game is over.
-	 */
 	Game.prototype.gameover = function() {
 		this.isPlaying = false;
 
-		// Should be refactored into a Scoreboard class.
 		var that = this;
-		var scoreboardEl = this.el.find('.Scoreboard');
-		scoreboardEl
-			.addClass('is-visible')
-			.find('.Scoreboard-restart')
-				.one('click', function() {
-					scoreboardEl.removeClass('is-visible');
-					that.start();
-				});
+		this.menu.display(function() {
+			that.start();
+		});
 	};
 
 	return Game;
 })();
-
-
