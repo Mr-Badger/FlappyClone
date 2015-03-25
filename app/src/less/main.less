@@ -4,21 +4,27 @@
 
 @gameEm: 10px;
 @gameRatio: 4/3;
-@gameWidth: 480px;
-
-@outlineC: rgb(83, 56, 70);
-@birdStrokeSize: 3.5px;
+@gameWidth: 48.0em;
 
 *, :before, :after {
 	box-sizing: border-box;
 }
 
+/*------------------------------------------
+	Main components
+------------------------------------------*/
+
 .container {
 	margin: 0 auto;
-	width: @gameWidth;
-	text-align: center;
+	max-width: 480px;
 	font-family: 'Sarpanch', sans-serif;
-	letter-spacing: 3px;
+	text-align: center;
+	user-select: none;
+	cursor: pointer;
+
+	h1 {
+		letter-spacing: 0.3em;
+	}
 }
 
 body {
@@ -35,62 +41,61 @@ body {
 	background-color: @gameBGColor;
 }
 
-#bird {
+#score {
 	position: absolute;
+	z-index: 75;
+	top: 15%;
+	width: 100%;
+	font-size: 5em;
+	font-weight: 900;
+	.text-stroke(3px, rgb(69, 69, 69));
+}
+
+
+/*------------------------------------------
+	Bird
+------------------------------------------*/
+
+@birdOutlineC: rgb(83, 56, 70);
+@birdStrokeSize: 0.35em;
+
+#bird {
+	.absPos(0; 0; 4.8em; 4em);
 	z-index: 100;
-	left: 40%;
-	top: 40%;
-	width: 50px;
-	height: 40px;
-	border: @birdStrokeSize solid @outlineC;
+
+	border: @birdStrokeSize solid @birdOutlineC;
 	border-radius: 50%;
 	background: linear-gradient(to bottom, #ffbf27 0%, #ffbf27 30%, #e48116 100%);
 
-	animation: birdy 0.8s infinite;
-	animation-timing-function: linear;
+	//animation: birdy 0.8s infinite;
+	//animation-timing-function: linear;
 
 	.eye {
-		position: absolute;
-		width: 22px;
-		height: 20px;
-		left: 24px;
-		top: 2px;
+		.absPos(2.4em; 0.2em; 2.2em; 2.0em);
 		border-radius: 40% 60% 0;
-		border: @birdStrokeSize solid @outlineC;
+		border: @birdStrokeSize solid @birdOutlineC;
 		background-color: white;
 
 		&:after {
 			content: '';
-			position: absolute;
-			width: 4px;
-			height: 7px;
-			top: 4px;
-			left: 8px;
+			.absPos(0.8em; 0.4em; 0.4em; 0.7em);
 			border-radius: 50%;
-			background-color: @outlineC;
+			background-color: black;
 		}
 	}
 
 	.mouth {
-		position: absolute;
-		height: 16px;
-		width: 32px;
-		left: 20px;
-		top: 18px;
+		.absPos(2.0em; 1.8em; 3.2em; 1.6em);
 		border-radius: 50% 50% 80% 50%;
-		border: @birdStrokeSize solid @outlineC;
+		border: @birdStrokeSize solid @birdOutlineC;
 		background-color: rgb(234, 80, 64);
 
 
 		&:after {
 			content: '';
-			position: absolute;
-			width: 22px;
-			height: 3px;
-			top: 3px;
-			left: 5px;
+			.absPos(0.5em; 0.3em; 2.2em; 0.3em);
 			border-radius: 50% 0 0 50%;
-			background-color: @outlineC;
+			background-color: @birdOutlineC;
 		}
 	}
 
@@ -100,108 +105,104 @@ body {
 	}
 
 	.wings {
-		position: absolute;
-		height: 16px;
-		width: 24px;
-		top: 14px;
-		left: -2px;
+		.absPos(-0.2em; 1.4em; 2.4em; 1.6em);
 		border-radius: 0 0 40% 40%;
 		background-color: rgb(221, 226, 177);
-		border: @birdStrokeSize solid @outlineC;
+		border: @birdStrokeSize solid @birdOutlineC;
 
 		transform-origin: top center;
-		transform: rotate3d(1,0,0,60deg);
+		transform: rotateX(60deg);
 
 		&.flapping {
 		}
 	}
 }
 
-.ground {
-	@stoneC: rgb(222, 216, 149);
-	@grassC: rgb(115, 191, 46);
+/*------------------------------------------
+	Game objects
+------------------------------------------*/
 
-	position: absolute;
+@outlineC: rgb(83, 56, 70);
+@stoneC: rgb(222, 216, 149);
+@grassC: rgb(115, 191, 46);
+
+.ground {
+	.absPos(0; @gameWidth * @gameRatio - 8.0em; 100%; 8.0em);
 	z-index: 50;
-	width: 100%;
-	height: 70px;
-	bottom: -4px;
-	left: -4px;
-	border: 3.5px solid @outlineC;
-	box-sizing: content-box;
+	border-top: 0.35em solid @outlineC;
 	background-color: @stoneC;
 
 	&:after {
 		content: '';
-		position: absolute;
-		width: 110%;
-		height: 16px;
-		left: 0;
-		box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+		.absPos(0; 0; @gameWidth + 3em; 1.6em);
 		background: linear-gradient(125deg,
 									@grassC 0%, @grassC 30%,
-									lighten(@grassC, 15%) 40%, lighten(@grassC, 15%) 65%,
+									lighten(@grassC, 15%) 40%,
+									lighten(@grassC, 15%) 65%,
 									@grassC 75%, @grassC 100%);
-		border-bottom: 4px solid darken(@grassC, 15%);
-		background-size: 30px 20px;
+		background-size: 3em 2em;
     	background-repeat: repeat-x;
+		border-bottom: 0.4em solid darken(@grassC, 15%);
+		box-shadow: 0 0.4em 0 rgba(0, 0, 0, 0.3);
+
 		animation: groundslide 0.2s infinite;
 		animation-timing-function: linear;
 	}
 }
 
-@keyframes flapping {
-	0%   { transform: rotate3d(1,0,0,60deg) }
-	40%  { transform: rotate3d(1,0,0,-160deg) }
-	90%  { transform: rotate3d(1,0,0,40deg) }
-	100% { transform: rotate3d(1,0,0,60deg) }
-}
+@pipeC: rgb(115, 190, 46);
 
-@keyframes birdy {
-	0%  { transform: translateY(0) }
-	50% { transform: translateY(14px) }
-	to  { transform: translateY(0) }
-}
+@pipeGap: 15em;
+@pipeHeight: 40em;
 
-@keyframes groundslide {
-	0% { transform: translateX(0) }
-	to { transform: translateX(-30px) }
-}
+.pipes {
+	position: relative;
+	height: 100%;
+	top: 20em;
 
-@keyframes pipeslide {
-	0% { transform: translateX(600px) }
-	to { transform: translateX(-200px) }
-}
+	.pipe {
+		.absPos(0; @pipeGap; 8em; @pipeHeight);
+		z-index: 20;
+		border-left: 0.35em solid @outlineC;
+		border-right: 0.35em solid @outlineC;
+		background: linear-gradient(to right,
+									lighten(@pipeC, 25%) 0%,
+									@pipeC 35%,
+									@pipeC 65%,
+									darken(@pipeC, 25%) 100%);
 
-.pipe {
-	@pipeColor: rgb(115, 190, 46);
+		animation: pipeslide 4s infinite;
+		animation-timing-function: linear;
 
-	position: absolute;
-	z-index: 20;
-	top: 60%;
-	width: 80px;
-	height: 400px;
-	border: 3.5px solid @outlineC;
-	background: linear-gradient(to right, lighten(@pipeColor, 25%) 0%, @pipeColor 35%, @pipeColor 65%, darken(@pipeColor, 25%) 100%);
+		&:after {
+			content: '';
+			.absPos(-0.7em; 0; 8.8em; 4.0em);
+			border: 0.35em solid @outlineC;
+			background: linear-gradient(to right,
+										lighten(@pipeC, 25%) 0%,
+										@pipeC 25%,
+										@pipeC 75%,
+										darken(@pipeC, 25%) 100%);
+		}
 
-	animation: pipeslide 5.33s infinite;
-	animation-timing-function: linear;
+		&.reverse {
+			top: -@pipeHeight;
 
-	&:after {
-		content: '';
-		position: absolute;
-		width: 88px;
-		height: 40px;
-		top: -4px;
-		left: -7px;
-		border: 3.5px solid @outlineC;
-		background: linear-gradient(to right, lighten(@pipeColor, 25%) 0%, @pipeColor 25%, @pipeColor 75%, darken(@pipeColor, 25%) 100%);
+			&:after {
+				top: auto;
+				bottom: 0;
+			}
+		}
 	}
 }
 
-@cloudwidth: 50px;
-@cloudheight: 30px;
-@cloudStroke: 6px;
+/*------------------------------------------
+	Clouds
+------------------------------------------*/
+
+@cloudwidth: 5.0em;
+@cloudheight: 3.0em;
+@cloudStroke: 0.6em;
 
 .cloud {
 	position: absolute;
@@ -229,47 +230,30 @@ body {
 			width: @cloudwidth + @cloudStroke;
 			height: @cloudheight + @cloudStroke;
 			background-color: rgb(69, 69, 69);
-			left: -2px;
-			top: -4px;
+			left: -0.2em;
+			top: -0.4em;
 		}
 
 		&:nth-child(2) {
-			left: 20px;
-			top: 10px;
+			left: 2.0em;
+			top: 1.0em;
 		}
 
 		&:nth-child(3) {
-			left: 25px;
-			top: -8px;
+			left: 2.5em;
+			top: -0.8em;
 		}
 
 		&:nth-child(4) {
-			left: -22px;
-			top: -10px;
+			left: -2.2em;
+			top: -1.0em;
 		}
 	}
 }
 
-.text-stroke(@width, @color: black) {
-	text-shadow: @width 0 0 @color,
-				 0 @width 0 @color,
-				 -@width 0 0 @color,
-				 0 -@width 0 @color,
-				 @width @width 0 @color,
-				 @width -@width 0 @color,
-				 -@width @width 0 @color,
-				 -@width -@width 0 @color;
-}
-
-#score {
-	position: absolute;
-	z-index: 75;
-	top: 15%;
-	width: 100%;
-	font-size: 5em;
-	font-weight: 900;
-	.text-stroke(3px, rgb(69, 69, 69));
-}
+/*------------------------------------------
+	Game over menu
+------------------------------------------*/
 
 #gameover {
 	position: absolute;
@@ -291,13 +275,13 @@ body {
 		justify-content: space-around;
 		margin: 1em 0;
 
-		& > div {
+		.score {
 			width: 8em;
 			border-radius: 0.4em;
 			background-color: rgb(60, 138, 206);
 			padding: 0.8em 0;
 
-			div:nth-child(2) {
+			.number {
 				font-size: 3em;
 				line-height: 1em;
 			}
@@ -317,4 +301,55 @@ body {
 			cursor: pointer;
 		}
 	}
+}
+
+
+/*------------------------------------------
+	Usefull mixins
+------------------------------------------*/
+
+.absPos(@left; @top; @width; @height) {
+	position: absolute;
+	left: @left;
+	top: @top;
+	width: @width;
+	height: @height;
+}
+
+.text-stroke(@width, @color: black) {
+	text-shadow: @width 0 0 @color,
+				 0 @width 0 @color,
+				 -@width 0 0 @color,
+				 0 -@width 0 @color,
+				 @width @width 0 @color,
+				 @width -@width 0 @color,
+				 -@width @width 0 @color,
+				 -@width -@width 0 @color;
+}
+
+/*------------------------------------------
+	ANIMATIONS
+------------------------------------------*/
+
+@keyframes flapping {
+	0%   { transform: rotate3d(1,0,0,60deg) }
+	40%  { transform: rotate3d(1,0,0,-160deg) }
+	90%  { transform: rotate3d(1,0,0,40deg) }
+	100% { transform: rotate3d(1,0,0,60deg) }
+}
+
+@keyframes birdy {
+	0%  { transform: translateY(0) }
+	50% { transform: translateY(14px) }
+	to  { transform: translateY(0) }
+}
+
+@keyframes groundslide {
+	0% { transform: translateX(0) }
+	to { transform: translateX(-30px) }
+}
+
+@keyframes pipeslide {
+	0% { transform: translateX(@gameWidth + 2em) }
+	to { transform: translateX(-10em) }
 }
