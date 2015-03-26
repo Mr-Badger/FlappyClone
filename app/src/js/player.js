@@ -18,6 +18,7 @@ window.Player = (function() {
 		this.pos = { x: 0, y: 0 };
 		this.speed = 0;
 		this.canFlap = true;
+		this.rot = 0;
 	};
 
 	Player.prototype.reset = function() {
@@ -28,6 +29,7 @@ window.Player = (function() {
 
 	Player.prototype.onFrame = function(delta) {
 		var that = this;
+
 		if (this.canFlap) {
 			if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse')) {
 				this.speed = -FLAP;
@@ -62,15 +64,19 @@ window.Player = (function() {
 				that.checkCollisionWithObject(pipe);
 			});
 		});
-		var rot = this.speed * 90;
-		if(rot < -30) {
-			rot = -30;
+
+		if(this.speed < 0.7) {
+			this.rot = -30;
 		}
-		if(rot > 90) {
-			rot = 90;
+		else {
+			this.rot += 6;
 		}
 
-		if(rot > 60) {
+		if(this.rot > 90) {
+			this.rot = 90;
+		}
+
+		if(this.rot > 60) {
 			this.el.removeClass('flying');
 		}
 		else {
@@ -78,7 +84,7 @@ window.Player = (function() {
 		}
 
 		// Update position
-		this.el.css('transform', 'translate3d(' + this.pos.x + 'em,' + this.pos.y + 'em, 0) rotateZ('+ rot +'deg)');
+		this.el.css('transform', 'translate3d(' + this.pos.x + 'em,' + this.pos.y + 'em, 0) rotateZ('+ this.rot +'deg)');
 	};
 
 	Player.prototype.checkCollisionWithObject = function(object) {
