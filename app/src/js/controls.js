@@ -6,7 +6,7 @@ window.Controls = (function() {
 	var KEYS = {
 		32: 'space',
 		38: 'up',
-		40: 'down'
+		77: 'mute'
 	};
 
 	//A singleton class which abstracts all player input.
@@ -15,15 +15,15 @@ window.Controls = (function() {
 		$(window)
 			.on('keydown', this._onKeyDown.bind(this))
 			.on('keyup', this._onKeyUp.bind(this))
-			.on('mousedown', this._onMouseClick.bind(this));
+			.on('mousedown', this._onMouseDown.bind(this))
+			.on('mouseup', this._onMouseUp.bind(this));
+	};
+
+	Controls.prototype.getKey = function(keyName) {
+		return this.keys[keyName] || false;
 	};
 
 	Controls.prototype._onKeyDown = function(e) {
-		if (e.keyCode === 32 && !this.keys.space) {
-			console.log('space');
-		}
-
-		// Remember that this button is down.
 		if (e.keyCode in KEYS) {
 			var keyName = KEYS[e.keyCode];
 			this.keys[keyName] = true;
@@ -37,8 +37,12 @@ window.Controls = (function() {
 		}
 	};
 
-	Controls.prototype._onMouseClick = function(e) {
-		console.log('down');
+	Controls.prototype._onMouseDown = function() {
+		this.keys['mouse'] = true;
+	};
+
+	Controls.prototype._onMouseUp = function() {
+		this.keys['mouse'] = false;
 	};
 
 	// Export singleton.

@@ -3,9 +3,12 @@ window.Player = (function() {
 
 	var Controls = window.Controls;
 
-	var SPEED = 30;
+	var FLAP = 0.8;
 	var INITIAL_POSITION_X = 20;
 	var INITIAL_POSITION_Y = 25;
+	var GRAVITY = 2;
+	var MAXSPEED = 1.2;
+	var birdClickRate = 150; //ms
 
 	var Player = function(el, game) {
 		this.el = el;
@@ -13,28 +16,41 @@ window.Player = (function() {
 		this.bWidth = 0.1 * el.outerWidth();
 		this.bHeight = 0.1 * el.outerHeight();
 		this.pos = { x: 0, y: 0 };
+		this.speed = 0;
+		this.canFlap = true;
 	};
 
 	Player.prototype.reset = function() {
 		this.pos.x = INITIAL_POSITION_X;
 		this.pos.y = INITIAL_POSITION_Y;
+		this.speed = 0;
 	};
 
 	Player.prototype.onFrame = function(delta) {
-		if (Controls.keys.down) {
-			this.pos.y += delta * SPEED;
-		}
-		if (Controls.keys.up) {
-			this.pos.y -= delta * SPEED;
-		}
-
-		//shitty linear gravity
-		this.pos.y += 0.2;
-
-		this.checkCollisionWithBounds();
-		this.checkCollisionWithObject($('.ground'));
-
 		var that = this;
+		if (this.canFlap) {
+			if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse')) {
+				this.speed = -FLAP;
+				this.canFlap = false;
+				this.lastFlapped = new Date();
+			}
+		}
+		else {
+			var timeNow = new Date().getTime();
+			if(this.lastFlapped.getTime() + birdClickRate < timeNow) {
+				this.canFlap = true;
+			}
+		}
+
+		this.speed += delta * GRAVITY;
+
+		//Cap speed
+		if(this.speed > MAXSPEED) {
+			this.speed = MAXSPEED;
+		}
+		this.pos.y += this.speed;
+
+		this.checkCollisionWithObject($('.ground'));
 
 		$('.pipeSet').each(function(key, item) {
 			var pipeSet = $(item);
@@ -46,18 +62,23 @@ window.Player = (function() {
 				that.checkCollisionWithObject(pipe);
 			});
 		});
+		var rot = this.speed * 90;
+		if(rot < -30) {
+			rot = -30;
+		}
+		if(rot > 90) {
+			rot = 90;
+		}
+
+		if(rot > 60) {
+			this.el.removeClass('flying');
+		}
+		else {
+			this.el.addClass('flying');
+		}
 
 		// Update position
-		this.el.css('transform', 'translate3d(' + this.pos.x + 'em,' + this.pos.y + 'em, 0)');
-	};
-
-	Player.prototype.checkCollisionWithBounds = function() {
-		if (this.pos.x < 0 ||
-			this.pos.x + this.bWidth > this.game.WORLD_WIDTH ||
-			this.pos.y < 0 ||
-			this.pos.y + this.bHeight > this.game.WORLD_HEIGHT) {
-			return this.game.gameover();
-		}
+		this.el.css('transform', 'translate3d(' + this.pos.x + 'em,' + this.pos.y + 'em, 0) rotateZ('+ rot +'deg)');
 	};
 
 	Player.prototype.checkCollisionWithObject = function(object) {
