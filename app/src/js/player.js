@@ -25,6 +25,7 @@ window.Player = (function() {
 		this.pos.x = INITIAL_POSITION_X;
 		this.pos.y = INITIAL_POSITION_Y;
 		this.speed = 0;
+		this.game.distanceTraveled = 0;
 	};
 
 	Player.prototype.onFrame = function(delta) {
@@ -71,7 +72,7 @@ window.Player = (function() {
 		});
 
 		if(this.speed < 0.7) {
-			this.rot = -30;
+			this.rot = -20;
 		}
 		else {
 			this.rot += 6;

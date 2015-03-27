@@ -7,6 +7,8 @@ window.Game = (function() {
 		this.player = new window.Player(this.el.find('#bird'), this);
 		this.menu = new window.Menu(this.el.find('#gameover'));
 		this.isPlaying = false;
+		this.distanceTraveled = 0;
+		this.lastDistance = 0;
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
@@ -22,6 +24,14 @@ window.Game = (function() {
 	Game.prototype.onFrame = function() {
 		if (!this.isPlaying) {
 			return;
+		}
+
+		this.distanceTraveled += 1;
+		
+		if(this.distanceTraveled - this.lastDistance === 200) {
+			var pipes = new window.Pipes(this.el.find('.pipes'));
+			pipes.spawnPipes();
+			this.lastDistance = this.distanceTraveled;
 		}
 
 		// Calculate how long since last frame in seconds.
