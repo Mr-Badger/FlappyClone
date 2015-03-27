@@ -52,8 +52,8 @@ window.Player = (function() {
 		}
 		this.pos.y += this.speed;
 
-		this.checkCollisionWithObject($('.ground'));
 
+		this.checkCollisionWithObject($('.ground'));
 		$('.pipeSet').each(function(key, item) {
 			var pipeSet = $(item);
 			var top = pipeSet.position().top;
@@ -61,6 +61,11 @@ window.Player = (function() {
 			pipeSet.children('.pipe').each(function(key, item) {
 				var pipe = $(item);
 				pipe.rTop = pipe.position().top + top;
+				if(pipe.rTop < 0) {
+					var offset = 5000;
+					pipe.rTop -= offset;
+					pipe.rHeight = pipe.outerHeight() + offset;
+				}
 				that.checkCollisionWithObject(pipe);
 			});
 		});
@@ -92,7 +97,7 @@ window.Player = (function() {
 			oX = (object.rLeft || oPosition.left) * 0.1,
 			oY = (object.rTop || oPosition.top) * 0.1,
 			oWidth = object.outerWidth() * 0.1,
-			oHeight = object.outerHeight() * 0.1;
+			oHeight = (object.rHeight || object.outerHeight()) * 0.1;
 
 		if ((this.pos.x < oX + oWidth) &&
 			(this.pos.x + this.bWidth > oX) &&
