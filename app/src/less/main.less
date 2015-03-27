@@ -154,7 +154,6 @@ body {
 }
 
 @pipeC: rgb(115, 190, 46);
-
 @pipeGap: 15em;
 @pipeHeight: 40em;
 
@@ -164,7 +163,7 @@ body {
 	top: 20em;
 
 	.pipe {
-		.absPos(0; @pipeGap; 8em; @pipeHeight);
+		.absPos(-10em; @pipeGap; 8em; @pipeHeight);
 		z-index: 20;
 		border-left: 0.35em solid @outlineC;
 		border-right: 0.35em solid @outlineC;
@@ -174,7 +173,7 @@ body {
 									@pipeC 65%,
 									darken(@pipeC, 25%) 100%);
 
-		animation: pipeslide 4s infinite;
+		animation: pipeslide 4s 1;
 		animation-timing-function: linear;
 
 		&:after {
@@ -417,6 +416,6 @@ body {
 }
 
 @keyframes pipeslide {
-	0% { transform: translateX(@gameWidth + 2em) }
-	to { transform: translateX(-10em) }
+	0% { transform: translateX(@gameWidth + 12em) }
+	to { transform: translateX(0) }
 }
