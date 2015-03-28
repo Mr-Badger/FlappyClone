@@ -28,14 +28,15 @@ window.Pipes = (function() {
 
 	Pipes.prototype.checkPipes = function() {
 		var pipe = $('.pipe');
-		var offset = pipe.offset();
-		if(offset !== undefined) {
-			if(offset.left < -50) {
+		var position = pipe.position();
+		
+		if(position !== undefined) {
+			if(position.left < -90) {
 				this.el.removeChild(this.el.childNodes[0]);
 			}	
 			pipe = $('.pipe');
-			offset = pipe.offset();
-			if(offset !== undefined && offset.left > 267 && offset.left < 270) {
+			position = pipe.position();
+			if(position !== undefined && position.left > 241 && position.left < 244) {
 				this.game.score++;
 			}
 		}
