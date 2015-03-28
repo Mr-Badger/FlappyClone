@@ -26,6 +26,7 @@ window.Player = (function() {
 		this.pos.y = INITIAL_POSITION_Y;
 		this.speed = 0;
 		this.game.distanceTraveled = 0;
+		this.game.lastDistance = 0;
 	};
 
 	Player.prototype.onFrame = function(delta) {
