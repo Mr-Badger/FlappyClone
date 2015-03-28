@@ -6,6 +6,7 @@ window.Pipes = (function() {
 		this.game = game;
 		this.lowerTop = 0;
 		this.upperTop = 0;
+		this.scoreChanged = false;
 	};
 
 	Pipes.prototype.spawnPipes = function() {
@@ -29,15 +30,17 @@ window.Pipes = (function() {
 	Pipes.prototype.checkPipes = function() {
 		var pipe = $('.pipe');
 		var position = pipe.position();
-		
+
 		if(position !== undefined) {
-			if(position.left < -90) {
+			if(position.left === -100) {
 				this.el.removeChild(this.el.childNodes[0]);
+				this.scoreChanged = false;
 			}	
 			pipe = $('.pipe');
 			position = pipe.position();
-			if(position !== undefined && position.left > 241 && position.left < 244) {
+			if(position !== undefined && !this.scoreChanged && position.left < 244 && position.left !== -100) {
 				this.game.score++;
+				this.scoreChanged = true;
 			}
 		}
 	};

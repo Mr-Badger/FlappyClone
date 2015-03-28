@@ -11,6 +11,7 @@ window.Game = (function() {
 		this.lastDistance = 0;
 		this.score = 0;
 		this.bestScore = 0;
+		this.pipes = new window.Pipes(window.document.getElementsByClassName('pipes')[0], this);
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
@@ -26,8 +27,7 @@ window.Game = (function() {
 	Game.prototype.onFrame = function() {
 		var now = +new Date() / 1000,
 			delta = now - this.lastFrame;
-		this.lastFrame = now;
-		var pipes = new window.Pipes(window.document.getElementsByClassName('pipes')[0], this);
+		this.lastFrame = now; 
 		
 		if (!this.isPlaying) {
 			if(this.player.isFlying) {
@@ -40,11 +40,11 @@ window.Game = (function() {
 		this.distanceTraveled += 1;
 
 		if(this.distanceTraveled - this.lastDistance === 200) {
-			pipes.spawnPipes();
+			this.pipes.spawnPipes();
 			this.lastDistance = this.distanceTraveled;
 		}
 
-		pipes.checkPipes();
+		this.pipes.checkPipes();
 		if(this.score > this.bestScore) {
 			this.bestScore = this.score;
 		}
