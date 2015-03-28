@@ -29,6 +29,7 @@ window.Player = (function() {
 		this.game.distanceTraveled = 0;
 		this.game.lastDistance = 0;
 		this.isFlying = true;
+		this.game.score = 0;
 	};
 
 	Player.prototype.onFrame = function(delta) {

@@ -1,8 +1,9 @@
 window.Pipes = (function() {
 	'use strict';
 
-	var Pipes = function(el) {
+	var Pipes = function(el, game) {
 		this.el = el;
+		this.game = game;
 		this.lowerTop = 0;
 		this.upperTop = 0;
 	};
@@ -20,12 +21,24 @@ window.Pipes = (function() {
 		lowerPipe.className = 'pipe';
 		lowerPipe.style.top = this.lowerTop + 'em';
 
-		var pipes = window.document.getElementsByClassName('pipes')[0];
-		pipes.appendChild(pipeSet);
+		this.el.appendChild(pipeSet);
 		pipeSet.appendChild(lowerPipe);
 		pipeSet.appendChild(upperPipe);
+	};
 
-		pipes.removeChild(pipes.childNodes[0]);
+	Pipes.prototype.checkPipes = function() {
+		var pipe = $('.pipe');
+		var offset = pipe.offset();
+		if(offset !== undefined) {
+			if(offset.left < -50) {
+				this.el.removeChild(this.el.childNodes[0]);
+			}	
+			pipe = $('.pipe');
+			offset = pipe.offset();
+			if(offset !== undefined && offset.left > 267 && offset.left < 270) {
+				this.game.score++;
+			}
+		}
 	};
 
 	return Pipes;
