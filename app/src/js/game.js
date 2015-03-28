@@ -22,24 +22,25 @@ window.Game = (function() {
 	 * entity to update itself.
 	 */
 	Game.prototype.onFrame = function() {
+		var now = +new Date() / 1000,
+			delta = now - this.lastFrame;
+		this.lastFrame = now;
+
 		if (!this.isPlaying) {
+			if(this.player.isFlying) {
+				this.player.onFrame(delta);
+				window.requestAnimationFrame(this.onFrame);
+			}
 			return;
 		}
 
 		this.distanceTraveled += 1;
-		
+
 		if(this.distanceTraveled - this.lastDistance === 200) {
 			var pipes = new window.Pipes(this.el.find('.pipes'));
 			pipes.spawnPipes();
 			this.lastDistance = this.distanceTraveled;
 		}
-
-		// Calculate how long since last frame in seconds.
-		var now = +new Date() / 1000,
-			delta = now - this.lastFrame;
-		this.lastFrame = now;
-
-		// Update game entities.
 		this.player.onFrame(delta);
 
 		window.requestAnimationFrame(this.onFrame);
