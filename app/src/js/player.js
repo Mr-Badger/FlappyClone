@@ -7,7 +7,7 @@ window.Player = (function() {
 	var INITIAL_POSITION_X = 20;
 	var INITIAL_POSITION_Y = 25;
 	var GRAVITY = 2;
-	var MAXSPEED = 1.2;
+	var MAXSPEED = 1.4;
 	var birdClickRate = 150; //ms
 
 	var Player = function(el, game) {
@@ -19,6 +19,7 @@ window.Player = (function() {
 		this.speed = 0;
 		this.canFlap = true;
 		this.rot = 0;
+		this.isFlying = true;
 	};
 
 	Player.prototype.reset = function() {
@@ -27,50 +28,61 @@ window.Player = (function() {
 		this.speed = 0;
 		this.game.distanceTraveled = 0;
 		this.game.lastDistance = 0;
+		this.isFlying = true;
 	};
 
 	Player.prototype.onFrame = function(delta) {
-		var that = this;
-
-		if (this.canFlap) {
-			if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse')) {
-				this.speed = -FLAP;
-				this.canFlap = false;
-				this.lastFlapped = new Date();
+		if(this.game.isPlaying) {
+			if (this.canFlap) {
+				if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse')) {
+					this.speed = -FLAP;
+					this.canFlap = false;
+					this.lastFlapped = new Date();
+				}
+			}
+			else {
+				var timeNow = new Date().getTime();
+				if(this.lastFlapped.getTime() + birdClickRate < timeNow) {
+					this.canFlap = true;
+				}
 			}
 		}
-		else {
-			var timeNow = new Date().getTime();
-			if(this.lastFlapped.getTime() + birdClickRate < timeNow) {
-				this.canFlap = true;
+
+		if(this.checkCollisionWithObject($('.ground'))) {
+			this.isFlying = false;
+			if(this.game.isPlaying) {
+				return this.game.gameover();
 			}
+			return;
 		}
 
 		this.speed += delta * GRAVITY;
-
 		//Cap speed
 		if(this.speed > MAXSPEED) {
 			this.speed = MAXSPEED;
 		}
 		this.pos.y += this.speed;
 
-
-		this.checkCollisionWithObject($('.ground'));
-		$('.pipeSet').each(function(key, item) {
-			var pipeSet = $(item);
-			var top = pipeSet.position().top;
-
-			pipeSet.children('.pipe').each(function(key, item) {
-				var pipe = $(item);
-				pipe.rTop = pipe.position().top + top;
-				if(pipe.rTop < 0) {
-					var offset = 5000;
-					pipe.rTop -= offset;
-					pipe.rHeight = pipe.outerHeight() + offset;
-				}
-				that.checkCollisionWithObject(pipe);
+		if(this.game.isPlaying) {
+			var that = this;
+			$('.pipeSet').each(function(key, item) {
+				var pipeSet = $(item);
+				var top = pipeSet.position().top;
+				pipeSet.children('.pipe').each(function(key, item) {
+					var pipe = $(item);
+					pipe.rTop = pipe.position().top + top;
+					if(pipe.rTop < 0) {
+						var offset = 5000;
+						pipe.rTop -= offset;
+						pipe.rHeight = pipe.outerHeight() + offset;
+					}
+					if(that.checkCollisionWithObject(pipe)) {
+						that.speed = 0.7;
+						return that.game.gameover();
+					}
+				});
 			});
-		});
+		}
 
 		if(this.speed < 0.7) {
 			this.rot = -20;
@@ -101,12 +113,10 @@ window.Player = (function() {
 			oWidth = object.outerWidth() * 0.1,
 			oHeight = (object.rHeight || object.outerHeight()) * 0.1;
 
-		if ((this.pos.x < oX + oWidth) &&
-			(this.pos.x + this.bWidth > oX) &&
-			(this.pos.y < oY + oHeight) &&
-			(this.pos.y + this.bHeight > oY)) {
-			return this.game.gameover();
-		}
+		return ((this.pos.x < oX + oWidth) &&
+				(this.pos.x + this.bWidth > oX) &&
+				(this.pos.y < oY + oHeight) &&
+				(this.pos.y + this.bHeight > oY));
 	};
 
 
