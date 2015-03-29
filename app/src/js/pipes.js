@@ -38,7 +38,7 @@ window.Pipes = (function() {
 			}
 			pipe = $('.pipe');
 			position = pipe.position();
-			if(position !== undefined && !this.scoreChanged && position.left < 244 && position.left !== -100) {
+			if(position !== undefined && !this.scoreChanged && position.left < 244) {
 				this.game.score++;
 				this.scoreChanged = true;
 			}
@@ -49,6 +49,7 @@ window.Pipes = (function() {
 		while (this.el.firstChild) {
 			this.el.removeChild(this.el.firstChild);
 		}
+		this.scoreChanged = false;
 	};
 
 	return Pipes;
