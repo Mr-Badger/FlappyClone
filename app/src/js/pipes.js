@@ -35,7 +35,7 @@ window.Pipes = (function() {
 			if(position.left === -100) {
 				this.el.removeChild(this.el.childNodes[0]);
 				this.scoreChanged = false;
-			}	
+			}
 			pipe = $('.pipe');
 			position = pipe.position();
 			if(position !== undefined && !this.scoreChanged && position.left < 244 && position.left !== -100) {
@@ -45,6 +45,11 @@ window.Pipes = (function() {
 		}
 	};
 
-	return Pipes;
+	Pipes.prototype.reset = function() {
+		while (this.el.firstChild) {
+			this.el.removeChild(this.el.firstChild);
+		}
+	};
 
+	return Pipes;
 })();

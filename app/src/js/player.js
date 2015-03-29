@@ -8,7 +8,7 @@ window.Player = (function() {
 	var INITIAL_POSITION_Y = 25;
 	var GRAVITY = 2;
 	var MAXSPEED = 1.4;
-	var birdClickRate = 150; //ms
+	var birdClickRate = 200; //ms
 
 	var Player = function(el, game) {
 		this.el = el;

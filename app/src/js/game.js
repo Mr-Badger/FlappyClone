@@ -27,8 +27,8 @@ window.Game = (function() {
 	Game.prototype.onFrame = function() {
 		var now = +new Date() / 1000,
 			delta = now - this.lastFrame;
-		this.lastFrame = now; 
-		
+		this.lastFrame = now;
+
 		if (!this.isPlaying) {
 			if(this.player.isFlying) {
 				this.player.onFrame(delta);
@@ -36,7 +36,6 @@ window.Game = (function() {
 			}
 			return;
 		}
-
 		this.distanceTraveled += 1;
 
 		if(this.distanceTraveled - this.lastDistance === 120) {
@@ -48,9 +47,9 @@ window.Game = (function() {
 		if(this.score > this.bestScore) {
 			this.bestScore = this.score;
 		}
-		window.document.getElementById("score").innerHTML = this.score;
-		window.document.getElementById("finalScore").innerHTML = this.score;
-		window.document.getElementById("bestScore").innerHTML = this.bestScore;
+		$("#score").text(this.score);
+
+
 		this.player.onFrame(delta);
 
 		window.requestAnimationFrame(this.onFrame);
@@ -67,10 +66,14 @@ window.Game = (function() {
 
 	Game.prototype.reset = function() {
 		this.player.reset();
+		this.pipes.reset();
 	};
 
 	Game.prototype.gameover = function() {
 		this.isPlaying = false;
+
+		$("#finalScore").text(this.score);
+		$("#bestScore").text(this.bestScore);
 
 		var that = this;
 		this.menu.display(function() {
