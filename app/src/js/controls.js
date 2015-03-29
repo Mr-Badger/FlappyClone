@@ -16,7 +16,9 @@ window.Controls = (function() {
 			.on('keydown', this._onKeyDown.bind(this))
 			.on('keyup', this._onKeyUp.bind(this))
 			.on('mousedown', this._onMouseDown.bind(this))
-			.on('mouseup', this._onMouseUp.bind(this));
+			.on('mouseup', this._onMouseUp.bind(this))
+            .on('touchstart', this._onTouchStart.bind(this))
+            .on('touchend', this._onTouchEnd.bind(this));
 	};
 
 	Controls.prototype.getKey = function(keyName) {
@@ -44,6 +46,14 @@ window.Controls = (function() {
 	Controls.prototype._onMouseUp = function() {
 		this.keys['mouse'] = false;
 	};
+
+    Controls.prototype._onTouchStart = function() {
+        this.keys['touch'] = true;
+    };
+
+    Controls.prototype._onTouchEnd = function() {
+        this.keys['touch'] = false;
+    };
 
 	// Export singleton.
 	return new Controls();

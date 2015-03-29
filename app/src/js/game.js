@@ -39,7 +39,7 @@ window.Game = (function() {
 
 		this.distanceTraveled += 1;
 
-		if(this.distanceTraveled - this.lastDistance === 200) {
+		if(this.distanceTraveled - this.lastDistance === 120) {
 			this.pipes.spawnPipes();
 			this.lastDistance = this.distanceTraveled;
 		}

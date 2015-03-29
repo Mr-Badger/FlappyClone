@@ -3,7 +3,7 @@ window.Player = (function() {
 
 	var Controls = window.Controls;
 
-	var FLAP = 0.8;
+	var FLAP = 0.7;
 	var INITIAL_POSITION_X = 20;
 	var INITIAL_POSITION_Y = 25;
 	var GRAVITY = 2;
@@ -35,7 +35,7 @@ window.Player = (function() {
 	Player.prototype.onFrame = function(delta) {
 		if(this.game.isPlaying) {
 			if (this.canFlap) {
-				if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse')) {
+				if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse') || Controls.getKey('touch')) {
 					this.speed = -FLAP;
 					this.canFlap = false;
 					this.lastFlapped = new Date();
