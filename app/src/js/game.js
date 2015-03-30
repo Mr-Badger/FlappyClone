@@ -18,6 +18,7 @@ window.Game = (function() {
 		this.deathSound = window.document.getElementById('deathSound');
 		this.hitSound = window.document.getElementById('hitSound');
 		this.scoreSound = window.document.getElementById('scoreSound');
+		this.gameSound = window.document.getElementById('gameSound');
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);

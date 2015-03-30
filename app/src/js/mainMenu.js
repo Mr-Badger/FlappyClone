@@ -20,11 +20,14 @@ window.mainMenu = (function() {
 		this.optionsB.on('click touchstart', function() {
 			if(thatGame.sound === false){
 				thatGame.sound = true;
+				thatGame.gameSound.play();
 				options.html('SOUND ON');
 			}
 			else if(thatGame.sound === true){
 				options.html('SOUND OFF');
 				thatGame.sound = false;
+				thatGame.gameSound.pause();
+				thatGame.gameSound.currentTime = 0;
 			}
 		});
 	};
