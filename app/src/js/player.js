@@ -49,7 +49,7 @@ window.Player = (function() {
 			}
 		}
 
-		if(this.checkCollisionWithObject($('.ground'))) {
+		if(this.checkCollisionWithObject($('#ground'))) {
 			this.isFlying = false;
 			if(this.game.isPlaying) {
 				return this.game.gameover();

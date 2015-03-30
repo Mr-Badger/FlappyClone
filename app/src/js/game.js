@@ -7,12 +7,9 @@ window.Game = (function() {
 		this.player = new window.Player(this.el.find('#bird'), this);
 		this.menu = new window.Menu(this.el.find('#gameover'));
 		this.mainMenu = new window.mainMenu(this.el.find('#mainMenu'));
+		this.gameState = new window.GameState(this);
+		this.bestscore = 0;
 		this.isPlaying = false;
-		this.distanceTraveled = 0;
-		this.lastDistance = 0;
-		this.score = 0;
-		this.bestScore = 0;
-		this.pipes = new window.Pipes(window.document.getElementsByClassName('pipes')[0], this);
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
@@ -21,10 +18,6 @@ window.Game = (function() {
 	Game.prototype.WORLD_WIDTH = 48.0;
 	Game.prototype.WORLD_HEIGHT = 64.0;
 
-	/**
-	 * Runs every frame. Calculates a delta and allows each game
-	 * entity to update itself.
-	 */
 	Game.prototype.onFrame = function() {
 		var now = +new Date() / 1000,
 			delta = now - this.lastFrame;
@@ -37,19 +30,8 @@ window.Game = (function() {
 			}
 			return;
 		}
-		this.distanceTraveled += 1;
 
-		if(this.distanceTraveled - this.lastDistance === 120) {
-			this.pipes.spawnPipes();
-			this.lastDistance = this.distanceTraveled;
-		}
-
-		this.pipes.checkPipes();
-		if(this.score > this.bestScore) {
-			this.bestScore = this.score;
-		}
-		$("#score").text(this.score);
-
+		this.gameState.onFrame(delta);
 
 		this.player.onFrame(delta);
 
@@ -69,7 +51,7 @@ window.Game = (function() {
 		this.player.reset();
 		this.pipes.reset();
 	};
-	
+
 	Game.prototype.mainMenuStart = function() {
 		this.isPlaying = false;
 

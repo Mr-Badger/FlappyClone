@@ -1,55 +1,37 @@
 window.Pipes = (function() {
 	'use strict';
 
-	var Pipes = function(el, game) {
+	var Pipes = function(el, gameState) {
 		this.el = el;
-		this.game = game;
-		this.lowerTop = 0;
-		this.upperTop = 0;
-		this.scoreChanged = false;
+		this.gameState = gameState;
+		this.pipes = [];
+		this.lastSpawnTime = 50;
+		this.spawnRate = 50;
 	};
 
-	Pipes.prototype.spawnPipes = function() {
-		this.lowerTop = Math.ceil(Math.random() * 30);
-		this.upperTop = this.lowerTop - 55;
+	Pipes.prototype.trySpawn = function() {
+		if(this.gameState.distance > this.lastSpawnTime + this.spawnRate) {
+			this.lastSpawnTime = this.gameState.distance;
+			spawnPipe();
+		}
+	}
 
-		var pipeSet = window.document.createElement('div');
-		pipeSet.className = 'pipeSet';
-		var upperPipe = window.document.createElement('div');
-		upperPipe.className = 'pipe reverse';
-		upperPipe.style.top = this.upperTop + 'em';
-		var lowerPipe = window.document.createElement('div');
-		lowerPipe.className = 'pipe';
-		lowerPipe.style.top = this.lowerTop + 'em';
-
-		this.el.appendChild(pipeSet);
-		pipeSet.appendChild(lowerPipe);
-		pipeSet.appendChild(upperPipe);
+	Pipes.prototype.spawnPipe = function() {
+		var rand = Math.ceil(Math.random() * 30);
+		var pipesSet = $('<div class="pipeSet"><div class="pipe reverse"></div><div class="pipe"></div></div>').css('top': rand+'em');
+		this.pipes.push(pipeSet);
+		this.el.append(pipesSet);
 	};
 
-	Pipes.prototype.checkPipes = function() {
-		var pipe = $('.pipe');
-		var position = pipe.position();
-
-		if(position !== undefined) {
-			if(position.left === -100) {
-				this.el.removeChild(this.el.childNodes[0]);
-				this.scoreChanged = false;
-			}
-			pipe = $('.pipe');
-			position = pipe.position();
-			if(position !== undefined && !this.scoreChanged && position.left < 244) {
-				this.game.score++;
-				this.scoreChanged = true;
-			}
+	Pipes.prototype.checkPipe = function() {
+		if(this.pipes.length > 0 && this.pipes[0].position().left == -100) {
+			this.pipe.splice(0, 1);
+			this.el.first().remove();
 		}
 	};
 
 	Pipes.prototype.reset = function() {
-		while (this.el.firstChild) {
-			this.el.removeChild(this.el.firstChild);
-		}
-		this.scoreChanged = false;
+		this.el.clear();
 	};
 
 	return Pipes;
