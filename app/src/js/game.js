@@ -6,6 +6,7 @@ window.Game = (function() {
 		this.el = el;
 		this.player = new window.Player(this.el.find('#bird'), this);
 		this.menu = new window.Menu(this.el.find('#gameover'));
+		this.mainMenu = new window.mainMenu(this.el.find('#mainMenu'));
 		this.isPlaying = false;
 		this.distanceTraveled = 0;
 		this.lastDistance = 0;
@@ -67,6 +68,17 @@ window.Game = (function() {
 	Game.prototype.reset = function() {
 		this.player.reset();
 		this.pipes.reset();
+	};
+	
+	Game.prototype.mainMenu = function() {
+		this.isPlaying = false;
+
+		$("#bestScore").text(this.bestScore);
+
+		var that = this;
+		this.mainMenu.display(function() {
+			that.start();
+		});
 	};
 
 	Game.prototype.gameover = function() {

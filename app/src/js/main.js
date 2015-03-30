@@ -3,5 +3,5 @@ $(function() {
     'use strict';
 
     var game = new window.Game($('#game'));
-    game.start();
+    game.mainMenu();
 });
