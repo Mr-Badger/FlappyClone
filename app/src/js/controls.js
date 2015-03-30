@@ -47,7 +47,8 @@ window.Controls = (function() {
 		this.keys['mouse'] = false;
 	};
 
-    Controls.prototype._onTouchStart = function() {
+    Controls.prototype._onTouchStart = function(event) {
+        event.preventDefault();
         this.keys['touch'] = true;
     };
 

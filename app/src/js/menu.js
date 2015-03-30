@@ -10,7 +10,7 @@ window.Menu = (function() {
 	Menu.prototype.display = function(callback) {
 		var that = this.el;
 		this.el.show();
-		this.resetB.one('click', function() {
+		this.resetB.one('click touchstart', function() {
 			that.hide();
 			callback();
 		});
