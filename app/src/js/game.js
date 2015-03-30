@@ -70,10 +70,10 @@ window.Game = (function() {
 		this.pipes.reset();
 	};
 	
-	Game.prototype.mainMenu = function() {
+	Game.prototype.mainMenuStart = function() {
 		this.isPlaying = false;
 
-		$("#bestScore").text(this.bestScore);
+		$("#topScore").text(this.bestScore);
 
 		var that = this;
 		this.mainMenu.display(function() {
