@@ -1,18 +1,24 @@
 window.Menu = (function() {
 	'use strict';
 
-	var Menu = function(el) {
+	var Menu = function(el, game) {
 		this.el = el;
+		this.game = game;
 		this.resetB = $('#reset');
-		this.submitB = $('#submit');
+		this.backToMenuB = $('#backToMenu');
 	};
 
-	Menu.prototype.display = function(callback) {
+	Menu.prototype.display = function() {
 		var that = this.el;
 		this.el.show();
+		var thatGame = this.game;
 		this.resetB.one('click touchstart', function() {
 			that.hide();
-			callback();
+			thatGame.start();
+		});
+		this.backToMenuB.one('click touchstart', function() {
+			that.hide();
+			thatGame.mainMenuStart();
 		});
 	};
 
