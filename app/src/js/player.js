@@ -20,6 +20,7 @@ window.Player = (function() {
 		this.canFlap = true;
 		this.rot = 0;
 		this.isFlying = true;
+		this.wingSound = window.document.getElementById('wingSound');
 	};
 
 	Player.prototype.reset = function() {
@@ -36,6 +37,7 @@ window.Player = (function() {
 		if(this.game.isPlaying) {
 			if (this.canFlap) {
 				if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse') || Controls.getKey('touch')) {
+					this.wingSound.play();
 					this.speed = -FLAP;
 					this.canFlap = false;
 					this.lastFlapped = new Date();

@@ -7,6 +7,7 @@ window.Pipes = (function() {
 		this.lowerTop = 0;
 		this.upperTop = 0;
 		this.scoreChanged = false;
+		this.scoreSound = window.document.getElementById('scoreSound');
 	};
 
 	Pipes.prototype.spawnPipes = function() {
@@ -30,7 +31,6 @@ window.Pipes = (function() {
 	Pipes.prototype.checkPipes = function() {
 		var pipe = $('.pipe');
 		var position = pipe.position();
-
 		if(position !== undefined) {
 			if(position.left === -100) {
 				this.el.removeChild(this.el.childNodes[0]);
@@ -39,6 +39,7 @@ window.Pipes = (function() {
 			pipe = $('.pipe');
 			position = pipe.position();
 			if(position !== undefined && !this.scoreChanged && position.left < 244) {
+				this.scoreSound.play();
 				this.game.score++;
 				this.scoreChanged = true;
 			}

@@ -80,7 +80,10 @@ window.Game = (function() {
 
 	Game.prototype.gameover = function() {
 		this.isPlaying = false;
-
+		var deathSound = window.document.getElementById('deathSound');
+		var hitSound = window.document.getElementById('hitSound');
+		hitSound.play();
+		setTimeout(function () { deathSound.play();}, 400);
 		$("#finalScore").text(this.score);
 		$("#bestScore").text(this.bestScore);
 
