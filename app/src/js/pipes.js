@@ -7,7 +7,6 @@ window.Pipes = (function() {
 		this.lowerTop = 0;
 		this.upperTop = 0;
 		this.scoreChanged = false;
-		this.scoreSound = window.document.getElementById('scoreSound');
 	};
 
 	Pipes.prototype.spawnPipes = function() {
@@ -39,7 +38,9 @@ window.Pipes = (function() {
 			pipe = $('.pipe');
 			position = pipe.position();
 			if(position !== undefined && !this.scoreChanged && position.left < 244) {
-				this.scoreSound.play();
+				if(this.game.sound){
+					this.game.scoreSound.play();
+				}
 				this.game.score++;
 				this.scoreChanged = true;
 			}

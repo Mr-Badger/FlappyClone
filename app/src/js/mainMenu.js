@@ -10,14 +10,22 @@ window.mainMenu = (function() {
 
 	mainMenu.prototype.display = function() {
 		var that = this.el;
+		var options = this.optionsB;
 		this.el.show();
 		var thatGame = this.game;
-		this.startB.one('click touchstart', function() {
+		this.startB.on('click touchstart', function() {
 			that.hide();
 			thatGame.start();
 		});
-		this.optionsB.one('click touchstart', function() {
-			that.hide();
+		this.optionsB.on('click touchstart', function() {
+			if(thatGame.sound === false){
+				thatGame.sound = true;
+				options.html('SOUND ON');
+			}
+			else if(thatGame.sound === true){
+				options.html('SOUND OFF');
+				thatGame.sound = false;
+			}
 		});
 	};
 

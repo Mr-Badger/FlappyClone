@@ -13,6 +13,11 @@ window.Game = (function() {
 		this.score = 0;
 		this.bestScore = 0;
 		this.pipes = new window.Pipes(window.document.getElementsByClassName('pipes')[0], this);
+		this.sound = true;
+		this.wingSound = window.document.getElementById('wingSound');
+		this.deathSound = window.document.getElementById('deathSound');
+		this.hitSound = window.document.getElementById('hitSound');
+		this.scoreSound = window.document.getElementById('scoreSound');
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
@@ -80,10 +85,11 @@ window.Game = (function() {
 
 	Game.prototype.gameover = function() {
 		this.isPlaying = false;
-		var deathSound = window.document.getElementById('deathSound');
-		var hitSound = window.document.getElementById('hitSound');
-		hitSound.play();
-		setTimeout(function () { deathSound.play();}, 400);
+		
+		if(this.sound){
+			this.hitSound.play();
+			setTimeout(function () { this.deathSound.play();}, 400);
+		}
 		$("#finalScore").text(this.score);
 		$("#bestScore").text(this.bestScore);
 
