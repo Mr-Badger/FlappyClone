@@ -5,8 +5,8 @@ window.Game = (function() {
 	var Game = function(el) {
 		this.el = el;
 		this.player = new window.Player(this.el.find('#bird'), this);
-		this.menu = new window.Menu(this.el.find('#gameover'));
-		this.mainMenu = new window.mainMenu(this.el.find('#mainMenu'));
+		this.menu = new window.Menu(this.el.find('#gameover'), this);
+		this.mainMenu = new window.mainMenu(this.el.find('#mainMenu'), this);
 		this.gameState = new window.GameState(this);
 		this.bestscore = 0;
 		this.isPlaying = false;
@@ -57,10 +57,7 @@ window.Game = (function() {
 
 		$("#topScore").text(this.bestScore);
 
-		var that = this;
-		this.mainMenu.display(function() {
-			that.start();
-		});
+		this.mainMenu.display();
 	};
 
 	Game.prototype.gameover = function() {
@@ -69,10 +66,7 @@ window.Game = (function() {
 		$("#finalScore").text(this.score);
 		$("#bestScore").text(this.bestScore);
 
-		var that = this;
-		this.menu.display(function() {
-			that.start();
-		});
+		this.menu.display();
 	};
 
 	return Game;

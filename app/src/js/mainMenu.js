@@ -1,18 +1,23 @@
 window.mainMenu = (function() {
 	'use strict';
 
-	var mainMenu = function(el) {
+	var mainMenu = function(el, game) {
 		this.el = el;
+		this.game = game;
 		this.startB = $('#start');
 		this.optionsB = $('#options');
 	};
 
-	mainMenu.prototype.display = function(callback) {
+	mainMenu.prototype.display = function() {
 		var that = this.el;
 		this.el.show();
+		var thatGame = this.game;
 		this.startB.one('click touchstart', function() {
 			that.hide();
-			callback();
+			thatGame.start();
+		});
+		this.optionsB.one('click touchstart', function() {
+			that.hide();
 		});
 	};
 
