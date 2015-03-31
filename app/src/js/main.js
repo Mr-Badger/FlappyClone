@@ -1,7 +1,7 @@
 
 $(function() {
-    'use strict';
+	'use strict';
 
-    var game = new window.Game($('#game'));
-    game.mainMenuStart();
+	var game = new window.Game($('#game'));
+	game.startMainMenu();
 });

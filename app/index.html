@@ -12,21 +12,21 @@
 	<link rel="stylesheet" href="dist/css/main.min.css">
 	<script src="components/jquery/dist/jquery.min.js"></script>
 	<script src="dist/js/build.js"></script>
-	<audio id="score" src="sounds/sfx_point.ogg" preload="auto"></audio>
+	<audio id="song" src="sounds/sfx_point.ogg" preload="auto"></audio>
 </head>
 <body>
 	<div class="container">
 		<h1>Flappy Clone</h1>
 		<div id="game">
 			<div id="score">0</div>
-			<div id="bird" class="flying">
+			<div id="bird" class="floating">
 				<div class="eye"></div>
 				<div class="mouth"></div>
 				<div class="wings"></div>
 			</div>
 
 			<div id="objects">
-				<div id="ground"></div>
+				<div id="ground" class="slide"></div>
 				<div id="pipes"></div>
 			</div>
 			<div id="background">

@@ -10,61 +10,33 @@ window.Player = (function() {
 	var MAXSPEED = 1.4;
 	var birdClickRate = 200; //ms
 
-	var Player = function(el, game) {
+	var Player = function(el, gameState) {
 		this.el = el;
-		this.game = game;
+		this.gameState = gameState;
 		this.bWidth = 0.1 * el.outerWidth();
 		this.bHeight = 0.1 * el.outerHeight();
-		this.pos = { x: 0, y: 0 };
-		this.speed = 0;
-		this.canFlap = true;
-		this.rot = 0;
-		this.isFlying = true;
+		this.reset();
 	};
 
 	Player.prototype.reset = function() {
-		this.pos.x = INITIAL_POSITION_X;
-		this.pos.y = INITIAL_POSITION_Y;
+		this.pos = { x: INITIAL_POSITION_X, y: INITIAL_POSITION_Y };
 		this.speed = 0;
-		this.game.distanceTraveled = 0;
-		this.game.lastDistance = 0;
-		this.isFlying = true;
-		this.game.score = 0;
+		this.rot = 0;
+		this.canFlap = true;
+		this.hasCrashed = false;
+		this.el.addClass('floating');
 	};
 
 	Player.prototype.onFrame = function(delta) {
-		if(this.game.isPlaying) {
-			if (this.canFlap) {
-				if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse') || Controls.getKey('touch')) {
-					this.speed = -FLAP;
-					this.canFlap = false;
-					this.lastFlapped = new Date();
-				}
-			}
-			else {
-				var timeNow = new Date().getTime();
-				if(this.lastFlapped.getTime() + birdClickRate < timeNow) {
-					this.canFlap = true;
-				}
+		if(!this.gameState.gameStarted) {
+			if(!this.checkStart()) {
+ 				return;
 			}
 		}
 
-		if(this.checkCollisionWithObject($('#ground'))) {
-			this.isFlying = false;
-			if(this.game.isPlaying) {
-				return this.game.gameover();
-			}
-			return;
-		}
+		if(!this.gameState.gameEnded) {
+			this.checkInputs();
 
-		this.speed += delta * GRAVITY;
-		//Cap speed
-		if(this.speed > MAXSPEED) {
-			this.speed = MAXSPEED;
-		}
-		this.pos.y += this.speed;
-
-		if(this.game.isPlaying) {
 			var that = this;
 			$('.pipeSet').each(function(key, item) {
 				var pipeSet = $(item);
@@ -79,11 +51,63 @@ window.Player = (function() {
 					}
 					if(that.checkCollisionWithObject(pipe)) {
 						that.speed = 0.7;
-						return that.game.gameover();
+						that.gameState.end();
+						return;
 					}
 				});
 			});
 		}
+		else if(this.hasCrashed) {
+			return;
+		}
+
+		this.setPositionAndRotation(delta);
+
+		if(this.checkCollisionWithObject($('#ground'))) {
+			this.hasCrashed = true;
+			this.el.removeClass('flying');
+			if(!this.gameState.gameEnded) {
+				this.gameState.end();
+			}
+		}
+	};
+
+	Player.prototype.checkStart = function() {
+		if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse') || Controls.getKey('touch')) {
+			this.gameState.start();
+			this.el.removeClass('floating');
+			return true;
+		}
+		return false;
+	};
+
+	Player.prototype.checkInputs = function() {
+		if (this.canFlap) {
+			if(Controls.getKey('up') || Controls.getKey('space') || Controls.getKey('mouse') || Controls.getKey('touch')) {
+				this.speed = -FLAP;
+				this.canFlap = false;
+				this.lastFlapped = new Date();
+			}
+		}
+		else {
+			var timeNow = new Date().getTime();
+			if(this.lastFlapped.getTime() + birdClickRate < timeNow) {
+				this.canFlap = true;
+			}
+		}
+	};
+
+	/*Player.prototype.checkCollision = function() {
+
+	};*/
+
+	Player.prototype.setPositionAndRotation = function(delta) {
+		this.speed += delta * GRAVITY;
+
+		if(this.speed > MAXSPEED) {
+			this.speed = MAXSPEED;
+		}
+		this.pos.y += this.speed;
 
 		if(this.speed < 0.7) {
 			this.rot = -20;
@@ -97,13 +121,14 @@ window.Player = (function() {
 		}
 
 		if(this.rot > 60) {
-			this.el.removeClass('flying');
+			if(this.el.hasClass('flying')) {
+				this.el.removeClass('flying');
+			}
 		}
-		else {
+		else if(!this.el.hasClass('flying')) {
 			this.el.addClass('flying');
 		}
 
-		// Update position
 		this.el.css('transform', 'translate3d(' + this.pos.x + 'em,' + this.pos.y + 'em, 0) rotateZ('+ this.rot +'deg)');
 	};
 
@@ -120,7 +145,5 @@ window.Player = (function() {
 				(this.pos.y + this.bHeight > oY));
 	};
 
-
 	return Player;
-
 })();

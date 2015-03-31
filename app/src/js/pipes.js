@@ -1,37 +1,53 @@
 window.Pipes = (function() {
 	'use strict';
 
-	var Pipes = function(el, gameState) {
+	var Pipes = function(el) {
 		this.el = el;
-		this.gameState = gameState;
 		this.pipes = [];
-		this.lastSpawnTime = 50;
-		this.spawnRate = 50;
+		this.lastSpawnTime = 1.8;
+		this.spawnRate = 1.8;
 	};
 
-	Pipes.prototype.trySpawn = function() {
-		if(this.gameState.distance > this.lastSpawnTime + this.spawnRate) {
-			this.lastSpawnTime = this.gameState.distance;
-			spawnPipe();
+	Pipes.prototype.trySpawn = function(distance) {
+		if(distance > this.lastSpawnTime + this.spawnRate) {
+			this.lastSpawnTime = distance;
+			this.spawnPipe();
 		}
-	}
+	};
 
 	Pipes.prototype.spawnPipe = function() {
 		var rand = Math.ceil(Math.random() * 30);
-		var pipesSet = $('<div class="pipeSet"><div class="pipe reverse"></div><div class="pipe"></div></div>').css('top': rand+'em');
+		var pipeSet = $('<div>').addClass('pipeSet').css('top', (rand+'em'));
+		pipeSet.append($('<div>').addClass('pipe reverse'));
+		pipeSet.append($('<div>').addClass('pipe'));
 		this.pipes.push(pipeSet);
-		this.el.append(pipesSet);
+		this.el.append(pipeSet);
 	};
 
 	Pipes.prototype.checkPipe = function() {
-		if(this.pipes.length > 0 && this.pipes[0].position().left == -100) {
-			this.pipe.splice(0, 1);
-			this.el.first().remove();
+		if(this.pipes.length > 0) {
+			var left = this.pipes[0].children('.pipe:first').position().left;
+			if(left < -98) {
+				this.pipes.splice(0, 1);
+				this.el.children(":first").remove();
+			}
 		}
 	};
 
+	Pipes.prototype.stop = function() {
+		$.each(this.pipes, function(i, pipeset) {
+			$.each(pipeset.children(), function(i, pipe) {
+				var $pipe = $(pipe);
+				$pipe.css('left', $pipe.position().left);
+				$pipe.addClass('stop');
+			});
+		});
+	};
+
 	Pipes.prototype.reset = function() {
-		this.el.clear();
+		this.lastSpawnTime = 1.8;
+		this.pipes = [];
+		this.el.empty();
 	};
 
 	return Pipes;

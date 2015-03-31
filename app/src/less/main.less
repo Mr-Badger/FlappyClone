@@ -43,7 +43,8 @@ body {
 
 #score {
 	position: absolute;
-	z-index: 75;
+	display: none;
+	z-index: 110;
 	top: 15%;
 	width: 100%;
 	font-size: 5em;
@@ -128,12 +129,17 @@ body {
 @grassC: rgb(115, 191, 46);
 @groundHeight: 8.0em;
 
-.ground {
-	.absPos(0; auto; 100%; 8.0em);
+#ground {
+	.absPos(0; auto; 106%; 8.0em);
 	bottom: 0;
 	z-index: 120;
 	border-top: 0.35em solid @outlineC;
 	background-color: @stoneC;
+
+	&.slide {
+		animation: groundslide 0.2s infinite;
+		animation-timing-function: linear;
+	}
 
 	&:after {
 		content: '';
@@ -147,9 +153,6 @@ body {
     	background-repeat: repeat-x;
 		border-bottom: 0.4em solid darken(@grassC, 15%);
 		box-shadow: 0 0.4em 0 rgba(0, 0, 0, 0.3);
-
-		animation: groundslide 0.2s infinite;
-		animation-timing-function: linear;
 	}
 }
 
@@ -172,7 +175,6 @@ body {
 									@pipeC 35%,
 									@pipeC 65%,
 									darken(@pipeC, 25%) 100%);
-
 		animation: pipeslide 4s 1;
 		animation-timing-function: linear;
 
@@ -185,6 +187,10 @@ body {
 										@pipeC 25%,
 										@pipeC 75%,
 										darken(@pipeC, 25%) 100%);
+		}
+
+		&.stop {
+			animation: none;
 		}
 
 		&.reverse {

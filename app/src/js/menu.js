@@ -1,26 +1,25 @@
-window.Menu = (function() {
+window.GameOverMenu = (function() {
 	'use strict';
 
-	var Menu = function(el, game) {
+	var GameOverMenu = function(el, game) {
 		this.el = el;
 		this.game = game;
 		this.resetB = $('#reset');
 		this.backToMenuB = $('#backToMenu');
 	};
 
-	Menu.prototype.display = function() {
-		var that = this.el;
+	GameOverMenu.prototype.display = function() {
 		this.el.show();
-		var thatGame = this.game;
+		var that = this;
 		this.resetB.one('click touchstart', function() {
-			that.hide();
-			thatGame.start();
+			that.el.hide();
+			that.game.reset();
 		});
 		this.backToMenuB.one('click touchstart', function() {
-			that.hide();
-			thatGame.mainMenuStart();
+			that.el.hide();
+			that.game.startMainMenu();
 		});
 	};
 
-	return Menu;
+	return GameOverMenu;
 })();

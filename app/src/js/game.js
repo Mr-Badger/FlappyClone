@@ -4,12 +4,12 @@ window.Game = (function() {
 
 	var Game = function(el) {
 		this.el = el;
-		this.player = new window.Player(this.el.find('#bird'), this);
-		this.menu = new window.Menu(this.el.find('#gameover'), this);
-		this.mainMenu = new window.mainMenu(this.el.find('#mainMenu'), this);
 		this.gameState = new window.GameState(this);
-		this.bestscore = 0;
-		this.isPlaying = false;
+		this.player = new window.Player(this.el.find('#bird'), this.gameState);
+		this.mainMenu = new window.MainMenu(this.el.find('#mainMenu'), this);
+		this.gameOverMenu = new window.GameOverMenu(this.el.find('#gameover'), this);
+		this.bestScore = 0;
+		this.gameStarted = false;
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
@@ -23,50 +23,37 @@ window.Game = (function() {
 			delta = now - this.lastFrame;
 		this.lastFrame = now;
 
-		if (!this.isPlaying) {
-			if(this.player.isFlying) {
-				this.player.onFrame(delta);
-				window.requestAnimationFrame(this.onFrame);
-			}
-			return;
-		}
-
 		this.gameState.onFrame(delta);
-
 		this.player.onFrame(delta);
 
 		window.requestAnimationFrame(this.onFrame);
 	};
 
 	Game.prototype.start = function() {
+		if(!this.gameStarted) {
+			window.requestAnimationFrame(this.onFrame);
+			this.gameStarted = true;
+		}
 		this.reset();
-
-		// Restart the onFrame loop
-		this.lastFrame = +new Date() / 1000;
-		window.requestAnimationFrame(this.onFrame);
-		this.isPlaying = true;
 	};
 
 	Game.prototype.reset = function() {
+		this.lastFrame = +new Date() / 1000;
 		this.player.reset();
-		this.pipes.reset();
+		this.gameState.reset();
 	};
 
-	Game.prototype.mainMenuStart = function() {
-		this.isPlaying = false;
-
+	Game.prototype.startMainMenu = function() {
 		$("#topScore").text(this.bestScore);
 
 		this.mainMenu.display();
 	};
 
-	Game.prototype.gameover = function() {
-		this.isPlaying = false;
-
-		$("#finalScore").text(this.score);
+	Game.prototype.startGameOverMenu = function() {
+		$("#finalScore").text(this.gameState.score);
 		$("#bestScore").text(this.bestScore);
 
-		this.menu.display();
+		this.gameOverMenu.display();
 	};
 
 	return Game;

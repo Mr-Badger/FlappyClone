@@ -1,25 +1,24 @@
-window.mainMenu = (function() {
+window.MainMenu = (function() {
 	'use strict';
 
-	var mainMenu = function(el, game) {
+	var MainMenu = function(el, game) {
 		this.el = el;
 		this.game = game;
 		this.startB = $('#start');
 		this.optionsB = $('#options');
 	};
 
-	mainMenu.prototype.display = function() {
-		var that = this.el;
+	MainMenu.prototype.display = function() {
 		this.el.show();
-		var thatGame = this.game;
+		var that = this;
 		this.startB.one('click touchstart', function() {
-			that.hide();
-			thatGame.start();
+			that.el.hide();
+			that.game.start();
 		});
 		this.optionsB.one('click touchstart', function() {
-			that.hide();
+			that.el.hide();
 		});
 	};
 
-	return mainMenu;
+	return MainMenu;
 })();

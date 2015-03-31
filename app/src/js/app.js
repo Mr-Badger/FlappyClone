@@ -1,4 +1,0 @@
-
-var cloudgen = function() {
-
-};
