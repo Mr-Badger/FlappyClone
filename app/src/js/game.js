@@ -5,11 +5,17 @@ window.Game = (function() {
 	var Game = function(el) {
 		this.el = el;
 		this.gameState = new window.GameState(this);
-		this.player = new window.Player(this.el.find('#bird'), this.gameState);
+		this.player = new window.Player(this.el.find('#bird'), this, this.gameState);
 		this.mainMenu = new window.MainMenu(this.el.find('#mainMenu'), this);
 		this.gameOverMenu = new window.GameOverMenu(this.el.find('#gameover'), this);
 		this.bestScore = 0;
 		this.gameStarted = false;
+		this.sound = true;
+		this.wingSound = window.document.getElementById('wingSound');
+		this.deathSound = window.document.getElementById('deathSound');
+		this.hitSound = window.document.getElementById('hitSound');
+		this.scoreSound = window.document.getElementById('scoreSound');
+		this.gameSound = window.document.getElementById('gameSound');
 
 		// Cache a bound onFrame since we need it each frame.
 		this.onFrame = this.onFrame.bind(this);
@@ -51,6 +57,12 @@ window.Game = (function() {
 
 	Game.prototype.startGameOverMenu = function() {
 		$("#finalScore").text(this.gameState.score);
+		if(this.sound){
+			this.hitSound.play();
+			setTimeout(function () {
+				this.deathSound.play();
+			}, 400);
+		}
 		$("#bestScore").text(this.bestScore);
 
 		this.gameOverMenu.display();

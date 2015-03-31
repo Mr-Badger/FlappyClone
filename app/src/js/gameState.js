@@ -19,15 +19,19 @@ window.GameState = (function() {
 				this.pipes.trySpawn(this.distance);
 				this.pipes.checkPipe();
 			}
-		}
-		var points = (this.distance - 3.7);
-		if(points > 0) {
-			var score = Math.floor(points / 1.8);
-			if(score > this.score) {
-				this.score = score;
-				this.scoreN.text(score);
+			var points = (this.distance - 3.7);
+			if(points > 0) {
+				var score = Math.floor(points / 1.8);
+				if(score > this.score) {
+					this.score = score;
+					this.scoreN.text(score);
+					if(this.game.sound) {
+						this.game.scoreSound.play();
+					}
+				}
 			}
 		}
+
 	};
 
 	GameState.prototype.start = function() {

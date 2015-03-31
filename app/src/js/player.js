@@ -10,8 +10,9 @@ window.Player = (function() {
 	var MAXSPEED = 1.4;
 	var birdClickRate = 200; //ms
 
-	var Player = function(el, gameState) {
+	var Player = function(el, game, gameState) {
 		this.el = el;
+		this.game = game;
 		this.gameState = gameState;
 		this.bWidth = 0.1 * el.outerWidth();
 		this.bHeight = 0.1 * el.outerHeight();
@@ -87,6 +88,9 @@ window.Player = (function() {
 				this.speed = -FLAP;
 				this.canFlap = false;
 				this.lastFlapped = new Date();
+				if(this.game.sound){
+					this.game.wingSound.play();
+				}
 			}
 		}
 		else {
