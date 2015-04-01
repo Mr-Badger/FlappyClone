@@ -126,6 +126,12 @@ body {
 	100% { transform: rotateX(60deg) }
 }
 
+@keyframes floating {
+	0%  { transform: translate3d(20em, 25em, 0) }
+	50% { transform: translate3d(20em, 26.4em, 0) }
+	to  { transform: translate3d(20em, 25em, 0) }
+}
+
 /*------------------------------------------
 	Game objects
 ------------------------------------------*/
@@ -136,21 +142,22 @@ body {
 @groundHeight: 8.0em;
 
 #ground {
-	.absPos(0; auto; @gameWidth + 3em; 8.0em);
+	.absPos(0; auto; @gameWidth + 4em; 8.0em);
 	bottom: 0;
 	z-index: 120;
 	border-top: 0.35em solid @outlineC;
 	background-color: @stoneC;
 
-	&.slide {
-		//15em per sec
-		animation: groundslide 0.2s infinite;
-		animation-timing-function: linear;
+	animation: groundslide 0.2s infinite; //15em per sec
+	animation-timing-function: linear;
+
+	&.stop {
+		animation: none;
 	}
 
 	&:after {
 		content: '';
-		.absPos(0; 0; @gameWidth + 3em; 1.6em);
+		.absPos(0; 0; @gameWidth + 4em; 1.6em);
 		background: linear-gradient(125deg,
 									@grassC 0%, @grassC 30%,
 									lighten(@grassC, 15%) 40%,
@@ -216,6 +223,11 @@ body {
 	}
 }
 
+@keyframes pipeslide {
+	0% { transform: translateX(@gameWidth + 12em) }
+	to { transform: translateX(0) }
+}
+
 /*------------------------------------------
 	Background objects
 ------------------------------------------*/
@@ -225,9 +237,14 @@ body {
 @cloudStroke: 0.6em;
 
 .cloud {
-	position: absolute;
-	left: 75%;
-	top: 30%;
+	.absPos(-12em; auto; 0; 0);
+
+	animation: cloudslide 20s 1;
+	animation-timing-function: linear;
+
+	&.slow {
+		animation: cloudslide 30s 1;
+	}
 
 	.puff {
 		position: relative;
@@ -253,22 +270,12 @@ body {
 			left: -0.2em;
 			top: -0.4em;
 		}
-
-		&:nth-child(2) {
-			left: 2.0em;
-			top: 1.0em;
-		}
-
-		&:nth-child(3) {
-			left: 2.5em;
-			top: -0.8em;
-		}
-
-		&:nth-child(4) {
-			left: -2.2em;
-			top: -1.0em;
-		}
 	}
+}
+
+@keyframes cloudslide {
+	0% { transform: translateX(@gameWidth + 12em) }
+	to { transform: translateX(0) }
 }
 
 @houseC: rgb(200, 200, 200);
@@ -284,8 +291,12 @@ body {
 	border: 0.35em solid @houseStrokeC;
 	border-bottom: none;
 
-	animation: houseslide 5s 1;
+	animation: houseslide 14s 1;
 	animation-timing-function: linear;
+
+	&.stop {
+		animation: none;
+	}
 
 	&:after {
 		content: '█ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █';
@@ -328,6 +339,11 @@ body {
 		background-color: darken(@houseC, 5%);
 		font-size: 0.9em;
 	}
+}
+
+@keyframes houseslide {
+	0% { transform: translateX(@gameWidth + 12em) }
+	to { transform: translateX(0) }
 }
 
 /*------------------------------------------
@@ -404,24 +420,4 @@ body {
 				 @width -@width 0 @color,
 				 -@width @width 0 @color,
 				 -@width -@width 0 @color;
-}
-
-/*------------------------------------------
-	ANIMATIONS
-------------------------------------------*/
-
-@keyframes floating {
-	0%  { transform: translate3d(20em, 25em, 0) }
-	50% { transform: translate3d(20em, 26.4em, 0) }
-	to  { transform: translate3d(20em, 25em, 0) }
-}
-
-@keyframes houseslide {
-	0% { transform: translateX(@gameWidth + 8em) }
-	to { transform: translateX(0) }
-}
-
-@keyframes pipeslide {
-	0% { transform: translateX(@gameWidth + 12em) }
-	to { transform: translateX(0) }
 }

@@ -5,20 +5,19 @@ window.GameState = (function() {
 		this.game = game;
 		this.score = 0;
 		this.distance = 0;
-		this.gameStarted = false;
-		this.gameEnded = false;
+		this.gameStarted = true;
+		this.gameEnded = true;
 		this.scoreN = $('#score');
 		this.ground = $('#ground');
 		this.pipes = new window.Pipes($('#pipes'), game);
 	};
 
 	GameState.prototype.onFrame = function(delta) {
-		if(this.gameStarted) {
-			if(!this.gameEnded) {
-				this.distance += delta;
-				this.pipes.trySpawn(this.distance);
-				this.pipes.checkPipe();
-			}
+		if(this.gameStarted && !this.gameEnded) {
+			this.distance += delta;
+			this.pipes.trySpawn(this.distance);
+			this.pipes.cullPipes();
+
 			var points = (this.distance - 3.7);
 			if(points > 0) {
 				var score = Math.floor(points / 1.8);
@@ -31,7 +30,6 @@ window.GameState = (function() {
 				}
 			}
 		}
-
 	};
 
 	GameState.prototype.start = function() {
@@ -46,10 +44,11 @@ window.GameState = (function() {
 		this.pipes.stop();
 		var pos = this.ground.position().left * 1/this.game.gameEM;
 		this.ground.css('left', pos + 'em');
-		this.ground.removeClass('slide');
+		this.ground.addClass('stop');
 
 		this.gameEnded = true;
 		this.game.startGameOverMenu();
+		this.game.backGround.stop();
 		this.scoreN.hide();
 	};
 
@@ -59,7 +58,7 @@ window.GameState = (function() {
 		this.gameEnded = false;
 		this.score = 0;
 		this.distance = 0;
-		this.ground.addClass('slide');
+		this.ground.removeClass('stop');
 		this.ground.css('left', 0);
 		this.scoreN.text(0);
 	};
