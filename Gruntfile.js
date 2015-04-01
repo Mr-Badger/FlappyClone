@@ -39,6 +39,12 @@ module.exports = function(grunt) {
           livereload: 1337,
         },
       },
+      html: {
+        files: ['app/*.html'],
+        options: {
+          livereload: 1337,
+        },
+      },
     },
     concat: {
       options: {
