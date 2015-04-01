@@ -14,9 +14,14 @@
 	Main components
 ------------------------------------------*/
 
+body {
+	margin: 0;
+	overflow: hidden;
+	background-color: @bgColor;
+	color: white;
+}
+
 .container {
-	margin: 0 auto;
-	max-width: 480px;
 	font-family: 'Sarpanch', sans-serif;
 	text-align: center;
 	user-select: none;
@@ -25,11 +30,6 @@
 	h1 {
 		letter-spacing: 0.3em;
 	}
-}
-
-body {
-	background-color: @bgColor;
-	color: white;
 }
 
 #game {
@@ -49,7 +49,7 @@ body {
 	width: 100%;
 	font-size: 5em;
 	font-weight: 900;
-	.text-stroke(3px, rgb(69, 69, 69));
+	.text-stroke(0.05em, rgb(69, 69, 69));
 }
 
 
@@ -130,7 +130,7 @@ body {
 @groundHeight: 8.0em;
 
 #ground {
-	.absPos(0; auto; 106%; 8.0em);
+	.absPos(0; auto; @gameWidth + 12em; 8.0em);
 	bottom: 0;
 	z-index: 120;
 	border-top: 0.35em solid @outlineC;
@@ -334,7 +334,7 @@ body {
 	.title {
 		font-size: 3.5em;
 		font-weight: 900;
-		.text-stroke(2px, rgb(69, 69, 69));
+		.text-stroke(0.06em, rgb(69, 69, 69));
 	}
 
 	.scoreboard {

@@ -1,28 +1,29 @@
-
 window.Game = (function() {
 	'use strict';
+	var that;
 
 	var Game = function(el) {
+		that = this;
 		this.el = el;
+		this.gameEM = 10;
 		this.gameState = new window.GameState(this);
 		this.player = new window.Player(this.el.find('#bird'), this, this.gameState);
 		this.mainMenu = new window.MainMenu(this.el.find('#mainMenu'), this);
 		this.gameOverMenu = new window.GameOverMenu(this.el.find('#gameover'), this);
 		this.bestScore = 0;
 		this.gameStarted = false;
-		this.sound = true;
+		this.sound = false;
 		this.wingSound = window.document.getElementById('wingSound');
 		this.deathSound = window.document.getElementById('deathSound');
 		this.hitSound = window.document.getElementById('hitSound');
 		this.scoreSound = window.document.getElementById('scoreSound');
 		this.gameSound = window.document.getElementById('gameSound');
 
-		// Cache a bound onFrame since we need it each frame.
+		this.resizeGame();
+		$(window).on('resize', this.resizeGame);
+		// Cache a bound onFrame since we need it each frame.;
 		this.onFrame = this.onFrame.bind(this);
 	};
-
-	Game.prototype.WORLD_WIDTH = 48.0;
-	Game.prototype.WORLD_HEIGHT = 64.0;
 
 	Game.prototype.onFrame = function() {
 		var now = +new Date() / 1000,
@@ -66,6 +67,25 @@ window.Game = (function() {
 		$("#bestScore").text(this.bestScore);
 
 		this.gameOverMenu.display();
+	};
+
+	Game.prototype.resizeGame = function() {
+		var widthR = $(window).width()/48;
+		var heightR = $(window).height()/64;
+		var newEM = Math.min(widthR, heightR);
+		var offset;
+		that.gameEM = newEM;
+		that.el.css('font-size', newEM+'px');
+		if(widthR > heightR) {
+			offset = ($(window).width() - (newEM * 48))/2;
+			that.el.css('margin-left', offset +'px');
+			that.el.css('margin-top', 0);
+		}
+		else {
+			offset = ($(window).height() - (newEM * 64))/2;
+			that.el.css('margin-top', offset + 'px');
+			that.el.css('margin-left', 0);
+		}
 	};
 
 	return Game;

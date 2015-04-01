@@ -14,8 +14,8 @@ window.Player = (function() {
 		this.el = el;
 		this.game = game;
 		this.gameState = gameState;
-		this.bWidth = 0.1 * el.outerWidth();
-		this.bHeight = 0.1 * el.outerHeight();
+		this.bWidth = (1/this.game.gameEM) * el.outerWidth();
+		this.bHeight = (1/this.game.gameEM) * el.outerHeight();
 		this.reset();
 	};
 
@@ -138,10 +138,10 @@ window.Player = (function() {
 
 	Player.prototype.checkCollisionWithObject = function(object) {
 		var oPosition = object.position(),
-			oX = (object.rLeft || oPosition.left) * 0.1,
-			oY = (object.rTop || oPosition.top) * 0.1,
-			oWidth = object.outerWidth() * 0.1,
-			oHeight = (object.rHeight || object.outerHeight()) * 0.1;
+			oX = (object.rLeft || oPosition.left) * (1/this.game.gameEM),
+			oY = (object.rTop || oPosition.top) * (1/this.game.gameEM),
+			oWidth = object.outerWidth() * (1/this.game.gameEM),
+			oHeight = (object.rHeight || object.outerHeight()) * (1/this.game.gameEM);
 
 		return ((this.pos.x < oX + oWidth) &&
 				(this.pos.x + this.bWidth > oX) &&

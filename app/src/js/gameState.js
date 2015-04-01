@@ -9,7 +9,7 @@ window.GameState = (function() {
 		this.gameEnded = false;
 		this.scoreN = $('#score');
 		this.ground = $('#ground');
-		this.pipes = new window.Pipes($('#pipes'));
+		this.pipes = new window.Pipes($('#pipes'), game);
 	};
 
 	GameState.prototype.onFrame = function(delta) {
@@ -44,7 +44,8 @@ window.GameState = (function() {
 			this.game.bestScore = this.score;
 		}
 		this.pipes.stop();
-		this.ground.css('left', this.ground.position().left);
+		var pos = this.ground.position().left * 1/this.game.gameEM;
+		this.ground.css('left', pos + 'em');
 		this.ground.removeClass('slide');
 
 		this.gameEnded = true;

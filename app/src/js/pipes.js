@@ -1,8 +1,9 @@
 window.Pipes = (function() {
 	'use strict';
 
-	var Pipes = function(el) {
+	var Pipes = function(el, game) {
 		this.el = el;
+		this.game = game;
 		this.pipes = [];
 		this.lastSpawnTime = 1.8;
 		this.spawnRate = 1.8;
@@ -16,7 +17,7 @@ window.Pipes = (function() {
 	};
 
 	Pipes.prototype.spawnPipe = function() {
-		var rand = Math.ceil(Math.random() * 30);
+		var rand = 5 + Math.ceil(Math.random() * 30);
 		var pipeSet = $('<div>').addClass('pipeSet').css('top', (rand+'em'));
 		pipeSet.append($('<div>').addClass('pipe reverse'));
 		pipeSet.append($('<div>').addClass('pipe'));
@@ -35,10 +36,12 @@ window.Pipes = (function() {
 	};
 
 	Pipes.prototype.stop = function() {
+		var that = this;
 		$.each(this.pipes, function(i, pipeset) {
 			$.each(pipeset.children(), function(i, pipe) {
 				var $pipe = $(pipe);
-				$pipe.css('left', $pipe.position().left);
+				var pos = $pipe.position().left * 1/that.game.gameEM;
+				$pipe.css('left', pos + 'em');
 				$pipe.addClass('stop');
 			});
 		});
