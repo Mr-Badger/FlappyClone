@@ -42,8 +42,8 @@ body {
 }
 
 #score {
-	position: absolute;
 	display: none;
+	position: absolute;
 	z-index: 110;
 	top: 15%;
 	width: 100%;
@@ -51,7 +51,6 @@ body {
 	font-weight: 900;
 	.text-stroke(0.05em, rgb(69, 69, 69));
 }
-
 
 /*------------------------------------------
 	Bird
@@ -120,6 +119,13 @@ body {
 	}
 }
 
+@keyframes flapping {
+	0%   { transform: rotateX(60deg) }
+	40%  { transform: rotateX(-160deg) }
+	90%  { transform: rotateX(40deg) }
+	100% { transform: rotateX(60deg) }
+}
+
 /*------------------------------------------
 	Game objects
 ------------------------------------------*/
@@ -130,13 +136,14 @@ body {
 @groundHeight: 8.0em;
 
 #ground {
-	.absPos(0; auto; @gameWidth + 12em; 8.0em);
+	.absPos(0; auto; @gameWidth + 3em; 8.0em);
 	bottom: 0;
 	z-index: 120;
 	border-top: 0.35em solid @outlineC;
 	background-color: @stoneC;
 
 	&.slide {
+		//15em per sec
 		animation: groundslide 0.2s infinite;
 		animation-timing-function: linear;
 	}
@@ -154,6 +161,11 @@ body {
 		border-bottom: 0.4em solid darken(@grassC, 15%);
 		box-shadow: 0 0.4em 0 rgba(0, 0, 0, 0.3);
 	}
+}
+
+@keyframes groundslide {
+	0% { transform: translateX(0) }
+	to { transform: translateX(-6.25%) }
 }
 
 @pipeC: rgb(115, 190, 46);
@@ -398,13 +410,6 @@ body {
 	ANIMATIONS
 ------------------------------------------*/
 
-@keyframes flapping {
-	0%   { transform: rotateX(60deg) }
-	40%  { transform: rotateX(-160deg) }
-	90%  { transform: rotateX(40deg) }
-	100% { transform: rotateX(60deg) }
-}
-
 @keyframes floating {
 	0%  { transform: translate3d(20em, 25em, 0) }
 	50% { transform: translate3d(20em, 26.4em, 0) }
@@ -414,11 +419,6 @@ body {
 @keyframes houseslide {
 	0% { transform: translateX(@gameWidth + 8em) }
 	to { transform: translateX(0) }
-}
-
-@keyframes groundslide {
-	0% { transform: translateX(0) }
-	to { transform: translateX(-3em) }
 }
 
 @keyframes pipeslide {

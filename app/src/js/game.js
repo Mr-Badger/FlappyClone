@@ -18,7 +18,7 @@ window.Game = (function() {
 		this.hitSound = window.document.getElementById('hitSound');
 		this.scoreSound = window.document.getElementById('scoreSound');
 		this.gameSound = window.document.getElementById('gameSound');
-
+		this.gameSound.loop = true;
 		this.resizeGame();
 		$(window).on('resize', this.resizeGame);
 		// Cache a bound onFrame since we need it each frame.;
