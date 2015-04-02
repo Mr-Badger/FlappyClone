@@ -1,5 +1,6 @@
 window.BackgroundController = (function() {
 	'use strict';
+	var that;
 
 	var fudgeFactor = 1;
 
@@ -8,10 +9,11 @@ window.BackgroundController = (function() {
 	var houseSpawnCooldown = 0.7;
 
 	var cloudEndPosY = -12;
-	var cloudSpawnChance = 0.03;
+	var cloudSpawnChance = 0.01;
 	var cloudSpawnCooldown = 2.5;
 
 	var BackgroundController = function(el, game, gameState) {
+		that = this;
 		this.el = el;
 		this.game = game;
 		this.gameState = gameState;
@@ -47,17 +49,21 @@ window.BackgroundController = (function() {
 			house.addClass('type' + type);
 		}
 		this.houses.append(house);
+		setTimeout(function() {
+			house.addClass('slide');
+		}, 0.001);
 	};
 
 	BackgroundController.prototype.spawnCloud = function() {
-		var puffs = 3 + Math.floor(Math.random() * 4);
-		var offsetY = Math.random() * 10;
+		var puffs = 5 + Math.floor(Math.random() * 5);
+		var offsetY = Math.random() * 15;
 		var cloud = $('<div>').addClass('cloud').css('top', offsetY + 'em');
-		var i, x, y;
+		var i, x, y, rand;
 
 		for(i = 0; i < puffs; i++) {
-			x = Math.random() * 6;
-			y = Math.random() * 6;
+			rand = Math.random() * Math.PI * 2;
+			x = 4 + Math.cos(rand) * 4;
+			y = 1.5 + Math.sin(rand) * 1.5;
 			var puff = $('<div>').addClass('puff').css({'left': x + 'em','top': y + 'em'});
 			cloud.append(puff);
 		}
@@ -65,7 +71,14 @@ window.BackgroundController = (function() {
 	};
 
 	BackgroundController.prototype.populateHouses = function() {
-		//todo
+		for(var i = 0; i < 10; i++) {
+			this.spawnHouse();
+		}
+
+		this.houses.children().each(function(index, house) {
+			var offsetX = (Math.random() * 60) - 6;
+			$(house).css('left', offsetX+'em');
+		});
 	};
 
 	BackgroundController.prototype.populateClouds = function() {
