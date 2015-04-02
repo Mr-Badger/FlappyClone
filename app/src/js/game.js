@@ -1,6 +1,7 @@
 window.Game = (function() {
 	'use strict';
 	var that;
+
 	//In ems
 	var GAME_WIDTH = 48;
 	var GAME_HEIGHT = 64;
@@ -57,6 +58,7 @@ window.Game = (function() {
 		this.gameOverMenu.display();
 	};
 
+	//Resizes the game too the biggest possible size.
 	Game.prototype.resizeGame = function() {
 		var widthR = $(window).width() / GAME_WIDTH;
 		var heightR = $(window).height() / GAME_HEIGHT;

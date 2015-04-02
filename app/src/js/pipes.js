@@ -1,7 +1,7 @@
 window.Pipes = (function() {
 	'use strict';
-
 	var that;
+
 	var pipeEndPosY = -10;
 	var fudgeFactor = 1;
 

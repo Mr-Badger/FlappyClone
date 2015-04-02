@@ -1,9 +1,10 @@
 window.Player = (function() {
 	'use strict';
+	var that;
 
 	var Controls = window.Controls;
 
-	var FLAP = 0.7;
+	var FLAP = 0.72;
 	var INITIAL_POSITION_X = 20;
 	var INITIAL_POSITION_Y = 25;
 	var GRAVITY = 2;
@@ -11,6 +12,7 @@ window.Player = (function() {
 	var birdClickRate = 200; //ms
 
 	var Player = function(el, game, gameState) {
+		that = this;
 		this.el = el;
 		this.game = game;
 		this.gameState = gameState;
@@ -38,25 +40,25 @@ window.Player = (function() {
 		if(!this.gameState.gameEnded) {
 			this.checkInputs();
 
-			var that = this;
-			$('.pipeSet').each(function(key, item) {
-				var pipeSet = $(item);
-				var top = pipeSet.position().top;
-				pipeSet.children('.pipe').each(function(key, item) {
-					var pipe = $(item);
-					pipe.rTop = pipe.position().top + top;
+			var pipes = this.gameState.pipes.pipes;
+			for(var i = 0; i < pipes.length; i++) {
+				var offsetY = pipes[i].position().top;
+				var pipeSet = pipes[i].children();
+				for(var j = 0; j < pipeSet.length; j++) {
+					var pipe = $(pipeSet[j]);
+					pipe.rTop = pipe.position().top + offsetY;
 					if(pipe.rTop < 0) {
 						var offset = 5000;
 						pipe.rTop -= offset;
 						pipe.rHeight = pipe.outerHeight() + offset;
 					}
-					if(that.checkCollisionWithObject(pipe)) {
-						that.speed = 0.7;
-						that.gameState.end();
+					if(this.checkCollisionWithObject(pipe)) {
+						this.speed = 0.7;
+						this.gameState.end();
 						return;
 					}
-				});
-			});
+				}
+			}
 		}
 		else if(this.hasCrashed) {
 			return;
