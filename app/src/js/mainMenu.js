@@ -20,16 +20,8 @@ window.MainMenu = (function() {
 			that.optionsB.off('click touchstart');
 		});
 		this.optionsB.on('click touchstart', function() {
-			if(that.game.sounds.mute) {
-				that.optionsB.text('SOUND ON');
-				that.game.sounds.mute = false;
-				that.game.sounds.play('gameSound');
-			}
-			else {
-				that.optionsB.text('SOUND OFF');
-				that.game.sounds.mute = true;
-				that.game.sounds.stop('gameSound');
-			}
+			that.game.sounds.toggleMute();
+			that.optionsB.text('SOUND ' + (that.game.sounds.mute ? 'OFF' : 'ON'));
 		});
 	};
 

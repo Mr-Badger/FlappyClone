@@ -7,6 +7,7 @@ window.SoundsController = (function() {
 		this.deathSound = new Audio('src/sounds/sfx_die.ogg');
 		this.scoreSound = new Audio('src/sounds/sfx_point.ogg');
 		this.gameSound = new Audio('src/sounds/gameSound.ogg');
+		this.gameSound.loop = true;
 		this.mute = true;
 	};
 
@@ -28,6 +29,16 @@ window.SoundsController = (function() {
 		var sound = this[soundName];
 		sound.pause();
 		sound.currentTime = 0;
+	};
+
+	SoundsController.prototype.toggleMute = function() {
+		this.mute = !this.mute;
+		if(this.mute) {
+			this.stop('gameSound');
+		}
+		else {
+			this.play('gameSound');
+		}
 	};
 
 	return new SoundsController();
