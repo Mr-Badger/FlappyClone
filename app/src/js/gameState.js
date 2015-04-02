@@ -20,13 +20,11 @@ window.GameState = (function() {
 
 			var points = (this.distance - 3.7);
 			if(points > 0) {
-				var score = Math.floor(points / 1.8);
-				if(score > this.score) {
-					this.score = score;
-					this.scoreN.text(score);
-					if(this.game.sound) {
-						this.game.scoreSound.play();
-					}
+				var newscore = Math.floor(points / 1.8);
+				if(newscore > this.score) {
+					this.score = newscore;
+					this.scoreN.text(newscore);
+					this.game.sounds.play('scoreSound');
 				}
 			}
 		}
@@ -38,6 +36,9 @@ window.GameState = (function() {
 	};
 
 	GameState.prototype.end = function() {
+		this.game.sounds.play('hitSound');
+		this.game.sounds.play('deathSound', 400);
+
 		if(this.score > this.game.bestScore) {
 			this.game.bestScore = this.score;
 		}

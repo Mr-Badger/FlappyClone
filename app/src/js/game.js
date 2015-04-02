@@ -9,19 +9,13 @@ window.Game = (function() {
 		that = this;
 		this.el = el;
 		this.gameEM = 10;
+		this.sounds = window.SoundsController;
 		this.gameState = new window.GameState(this);
 		this.player = new window.Player(this.el.find('#bird'), this, this.gameState);
 		this.backGround = new window.BackgroundController(this.el.find('#background'), this, this.gameState);
 		this.mainMenu = new window.MainMenu(this.el.find('#mainMenu'), this);
 		this.gameOverMenu = new window.GameOverMenu(this.el.find('#gameover'), this);
 		this.bestScore = 0;
-		this.sound = false;
-		this.hitSound = window.document.getElementById('hitSound');
-		this.wingSound = window.document.getElementById('wingSound');
-		this.deathSound = window.document.getElementById('deathSound');
-		this.scoreSound = window.document.getElementById('scoreSound');
-		this.gameSound = window.document.getElementById('gameSound');
-		this.gameSound.loop = true;
 		this.resizeGame();
 		$(window).on('resize', this.resizeGame);
 		// Cache a bound onFrame since we need it each frame.;
@@ -59,12 +53,6 @@ window.Game = (function() {
 
 	Game.prototype.startGameOverMenu = function() {
 		$("#finalScore").text(this.gameState.score);
-		if(this.sound){
-			this.hitSound.play();
-			setTimeout(function () {
-				this.deathSound.play();
-			}, 400);
-		}
 		$("#bestScore").text(this.bestScore);
 		this.gameOverMenu.display();
 	};

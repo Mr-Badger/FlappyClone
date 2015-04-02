@@ -1,7 +1,9 @@
 window.MainMenu = (function() {
 	'use strict';
+	var that;
 
 	var MainMenu = function(el, game) {
+		that = this;
 		this.el = el;
 		this.game = game;
 		this.startB = $('#start');
@@ -9,24 +11,24 @@ window.MainMenu = (function() {
 	};
 
 	MainMenu.prototype.display = function() {
+		this.optionsB.text('SOUND ' + (this.game.sounds.mute ? 'OFF' : 'ON'));
 		this.el.show();
-		var that = this;
+
 		this.startB.one('click touchstart', function() {
 			that.el.hide();
 			that.game.start();
 			that.optionsB.off('click touchstart');
 		});
 		this.optionsB.on('click touchstart', function() {
-			if(!that.game.sound) {
+			if(that.game.sounds.mute) {
 				that.optionsB.text('SOUND ON');
-				that.game.sound = true;
-				that.game.gameSound.play();
+				that.game.sounds.mute = false;
+				that.game.sounds.play('gameSound');
 			}
 			else {
 				that.optionsB.text('SOUND OFF');
-				that.game.sound = false;
-				that.game.gameSound.pause();
-				that.game.gameSound.currentTime = 0;
+				that.game.sounds.mute = true;
+				that.game.sounds.stop('gameSound');
 			}
 		});
 	};

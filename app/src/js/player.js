@@ -88,9 +88,7 @@ window.Player = (function() {
 				this.speed = -FLAP;
 				this.canFlap = false;
 				this.lastFlapped = new Date();
-				if(this.game.sound){
-					this.game.wingSound.play();
-				}
+				this.game.sounds.play('wingSound');
 			}
 		}
 		else {
