@@ -16,8 +16,8 @@ window.Player = (function() {
 		this.el = el;
 		this.game = game;
 		this.gameState = gameState;
-		this.bWidth = (1/this.game.gameEM) * el.outerWidth();
-		this.bHeight = (1/this.game.gameEM) * el.outerHeight();
+		this.bWidth = (1 / this.game.gameEM) * el.outerWidth();
+		this.bHeight = (1 / this.game.gameEM) * el.outerHeight();
 		this.reset();
 	};
 
@@ -53,7 +53,6 @@ window.Player = (function() {
 						pipe.rHeight = pipe.outerHeight() + offset;
 					}
 					if(this.checkCollisionWithObject(pipe)) {
-						this.speed = 0.7;
 						this.gameState.end();
 						return;
 					}
@@ -106,6 +105,10 @@ window.Player = (function() {
 	};*/
 
 	Player.prototype.setPositionAndRotation = function(delta) {
+		if(this.gameState.gameEnded && this.speed < 0.7) {
+			this.speed = 0.7;
+		}
+
 		this.speed += delta * GRAVITY;
 
 		if(this.speed > MAXSPEED) {

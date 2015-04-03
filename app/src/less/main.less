@@ -112,6 +112,11 @@ h1 {
 
 	&.floating {
 		animation: floating 0.8s infinite;
+
+		&.fix {
+			animation: none;
+			transform: translate3d(20em, 25em, 0) !important;
+		}
 	}
 
 	&.flying {
@@ -239,7 +244,7 @@ h1 {
 @cloudStroke: 0.6em;
 
 .cloud {
-	.absPos(-12em; auto; 0; 0);
+	.absPos(-14em; auto; 0; 0);
 
 	animation: cloudslide 30s 1;
 	animation-timing-function: linear;
@@ -272,7 +277,7 @@ h1 {
 }
 
 @keyframes cloudslide {
-	0% { transform: translateX(@gameWidth + 12em) }
+	0% { transform: translateX(@gameWidth + 14em) }
 	to { transform: translateX(0) }
 }
 

@@ -10,7 +10,7 @@ window.BackgroundController = (function() {
 	var houseSpawnCooldown = 0.7;
 
 	var cloudStartCount = 5;
-	var cloudEndPosY = -12;
+	var cloudEndPosY = -14;
 	var cloudSpawnChance = 0.01;
 	var cloudSpawnCooldown = 2.5;
 
@@ -55,7 +55,7 @@ window.BackgroundController = (function() {
 		this.houses.append(house);
 		setTimeout(function() {
 			house.addClass('slide');
-		}, 0.001);
+		}, 1);
 	};
 
 	//Generates a random cloud dom object and appends it into the game

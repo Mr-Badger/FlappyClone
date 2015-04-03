@@ -9,6 +9,7 @@ window.Game = (function() {
 	var Game = function(el) {
 		that = this;
 		this.el = el;
+		this.firstTime = true;
 		this.gameEM = 10;
 		this.sounds = window.SoundsController;
 		this.gameState = new window.GameState(this);
@@ -25,7 +26,7 @@ window.Game = (function() {
 	};
 
 	Game.prototype.onFrame = function() {
-		var now = +new Date() / 1000,
+		var now = new Date() / 1000,
 			delta = now - this.lastFrame;
 		this.lastFrame = now;
 
@@ -37,17 +38,27 @@ window.Game = (function() {
 	};
 
 	Game.prototype.start = function() {
-		this.reset();
+		if(this.firstTime) {
+			this.firstTime = false;
+			this.gameState.reset();
+			this.player.reset();
+		}
+		else {
+			this.reset();
+		}
 	};
 
 	Game.prototype.reset = function() {
-		this.lastFrame = +new Date() / 1000;
+		this.lastFrame = new Date() / 1000;
 		this.player.reset();
 		this.gameState.reset();
 		this.backGround.reset();
 	};
 
 	Game.prototype.startMainMenu = function() {
+		if(this.firstTime) {
+			this.backGround.reset();
+		}
 		$("#topScore").text(this.bestScore);
 		this.mainMenu.display();
 	};
@@ -58,7 +69,7 @@ window.Game = (function() {
 		this.gameOverMenu.display();
 	};
 
-	//Resizes the game too the biggest possible size.
+	//Resizes the game too the biggest possible size
 	Game.prototype.resizeGame = function() {
 		var widthR = $(window).width() / GAME_WIDTH;
 		var heightR = $(window).height() / GAME_HEIGHT;
@@ -76,6 +87,11 @@ window.Game = (function() {
 			that.el.css('margin-top', offset + 'px');
 			that.el.css('margin-left', 0);
 		}
+
+		that.player.el.addClass('fix');
+		setTimeout(function() {
+			that.player.el.removeClass('fix');
+		}, 1);
 	};
 
 	return Game;
