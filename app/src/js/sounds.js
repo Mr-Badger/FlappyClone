@@ -2,27 +2,46 @@ window.SoundsController = (function() {
 	'use strict';
 
 	var SoundsController = function() {
-		this.hitSound = new Audio('src/sounds/sfx_hit.ogg');
-		this.wingSound = new Audio('src/sounds/sfx_wing.ogg');
-		this.deathSound = new Audio('src/sounds/sfx_die.ogg');
-		this.scoreSound = new Audio('src/sounds/sfx_point.ogg');
-		this.gameSound = new Audio('src/sounds/gameSound.ogg');
+		this.hitSound = new Audio('src/sounds/sfx_hit.mp3');
+		this.wingSound = new Audio('src/sounds/sfx_wing.mp3');
+		this.deathSound = new Audio('src/sounds/sfx_die.mp3');
+		this.scoreSound = new Audio('src/sounds/sfx_point.mp3');
+		this.gameSound = new Audio('src/sounds/gameSound.mp3');
 		this.gameSound.loop = true;
+		this.rate = 1;
+		this.volume = 0.05;
 		this.mute = true;
 	};
 
 	SoundsController.prototype.play = function(soundName, delay) {
 		if(!this.mute) {
+			var sound = this[soundName];
+			sound.playbackRate = this.rate;
+			sound.volume = this.volume;
 			if(delay === undefined) {
-				this[soundName].play();
+				sound.play();
 			}
 			else {
-				var sound = this[soundName];
 				setTimeout(function() {
 					sound.play();
 				}, delay);
 			}
 		}
+	};
+
+	SoundsController.prototype.updateRate = function(delta) {
+		var change = (Math.random() - 0.5) * delta * 5;
+		this.rate += change;
+		this.rate = Math.min(Math.max(this.rate, 0.5), 2);
+		this.setPlaybackRate(this.rate);
+	};
+
+	SoundsController.prototype.setPlaybackRate = function(val) {
+		this.hitSound.playbackRate = val;
+		this.wingSound.playbackRate = val;
+		this.deathSound.playbackRate = val;
+		this.scoreSound.playbackRate = val;
+		this.gameSound.playbackRate = val;
 	};
 
 	SoundsController.prototype.stop = function(soundName) {

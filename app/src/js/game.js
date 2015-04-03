@@ -18,10 +18,11 @@ window.Game = (function() {
 		this.mainMenu = new window.MainMenu(this.el.find('#mainMenu'), this);
 		this.gameOverMenu = new window.GameOverMenu(this.el.find('#gameover'), this);
 		this.bestScore = 0;
+		this.trippyBird = false;
+		this.onFrame = this.onFrame.bind(this);
+
 		this.resizeGame();
 		$(window).on('resize', this.resizeGame);
-		// Cache a bound onFrame since we need it each frame.;
-		this.onFrame = this.onFrame.bind(this);
 		window.requestAnimationFrame(this.onFrame);
 	};
 
@@ -33,6 +34,10 @@ window.Game = (function() {
 		this.player.onFrame(delta);
 		this.gameState.onFrame(delta);
 		this.backGround.onFrame(delta);
+
+		if(this.trippyBird) {
+			this.sounds.updateRate(delta);
+		}
 
 		window.requestAnimationFrame(this.onFrame);
 	};

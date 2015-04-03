@@ -37,6 +37,15 @@ h1 {
 	height: @gameWidth * @gameRatio;
 	background-image: linear-gradient(to top, #70C5CE 0%, #70C5CE 60%, #3A666B 100%);
 	background-color: @gameBGColor;
+
+	&.trippy {
+		animation: trippy 6s infinite linear;
+	}
+}
+
+@keyframes trippy {
+	0%  { filter: hue-rotate(0deg) invert(1) }
+	to  { filter: hue-rotate(360deg) invert(1) }
 }
 
 .scoreBox {
