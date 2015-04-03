@@ -356,7 +356,7 @@ h1 {
 	Game over menu
 ------------------------------------------*/
 
-#gameover, #mainMenu {
+#gameover {
 	position: absolute;
 	z-index: 120;
 	top: 30%;
@@ -366,7 +366,7 @@ h1 {
 	display: none;
 
 	.title {
-		font-size: 3.5em;
+		font-size: 4em;
 		font-weight: 900;
 		.text-stroke(0.06em, rgb(69, 69, 69));
 	}
@@ -390,6 +390,55 @@ h1 {
 	}
 
 	.buttons {
+		display: flex;
+		justify-content: space-around;
+
+		.button {
+			width: 16em;
+			height: 3em;
+			background-color: red;
+			line-height: 3em;
+			user-select: none;
+			cursor: pointer;
+		}
+	}
+}
+
+#mainMenu {
+	position: absolute;
+	z-index: 120;
+	top: 10%;
+	left: 10%;
+	width: 80%;
+	font-weight: 600;
+	display: none;
+
+	.title {
+		font-size: 5em;
+		font-weight: 900;
+		.text-stroke(0.06em, rgb(69, 69, 69));
+	}
+
+	.scoreboard {
+		display: flex;
+		justify-content: space-around;
+		margin: 1em 0;
+
+		.score {
+			width: 8em;
+			border-radius: 0.4em;
+			background-color: rgb(60, 138, 206);
+			padding: 0.8em 0;
+
+			.number {
+				font-size: 3em;
+				line-height: 1em;
+			}
+		}
+	}
+
+	.buttons {
+		margin-top: 12.36em;
 		display: flex;
 		justify-content: space-around;
 

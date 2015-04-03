@@ -4,7 +4,7 @@ window.Player = (function() {
 
 	var Controls = window.Controls;
 
-	var FLAP = 0.72;
+	var FLAP = 0.75;
 	var INITIAL_POSITION_X = 20;
 	var INITIAL_POSITION_Y = 25;
 	var GRAVITY = 2;
