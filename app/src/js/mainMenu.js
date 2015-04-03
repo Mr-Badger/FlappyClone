@@ -16,16 +16,26 @@ window.MainMenu = (function() {
 		that.tripB.text('TRIP ' + (that.game.trippyBird ? 'ON' : 'OFF'));
 		this.el.show();
 
-		this.startB.one('click touchstart', function() {
+		this.startB.one('click touchstart', function(event) {
 			that.el.hide();
-			that.game.start();
-			that.optionsB.off('click touchstart');
+			if(event.type === 'touchstart') {
+				setTimeout(function() {
+					that.game.start();
+				}, 100);
+			}
+			else {
+				that.game.start();
+			}
+
 		});
+
+		this.optionsB.off('click touchstart');
 		this.optionsB.on('click touchstart', function() {
 			that.game.sounds.toggleMute();
 			that.optionsB.text('SOUND ' + (that.game.sounds.mute ? 'OFF' : 'ON'));
 		});
 
+		this.tripB.off('click touchstart');
 		this.tripB.on('click touchstart', function() {
 			that.game.trippyBird = !that.game.trippyBird;
 			that.game.el.toggleClass('trippy', that.game.trippyBird);

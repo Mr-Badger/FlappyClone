@@ -27,7 +27,9 @@ window.Player = (function() {
 		this.rot = 0;
 		this.canFlap = true;
 		this.hasCrashed = false;
-		this.el.addClass('floating');
+		if(!this.gameState.gameStarted) {
+			this.el.addClass('floating');
+		}
 	};
 
 	Player.prototype.onFrame = function(delta) {

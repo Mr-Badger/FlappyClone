@@ -11,9 +11,16 @@ window.GameOverMenu = (function() {
 	GameOverMenu.prototype.display = function() {
 		this.el.show();
 		var that = this;
-		this.resetB.one('click touchstart', function() {
+		this.resetB.one('click touchstart', function(event) {
 			that.el.hide();
-			that.game.reset();
+			if(event.type === 'touchstart') {
+				setTimeout(function() {
+					that.game.reset();
+				}, 100);
+			}
+			else {
+				that.game.reset();
+			}
 		});
 		this.backToMenuB.one('click touchstart', function() {
 			that.el.hide();

@@ -45,8 +45,8 @@ window.Game = (function() {
 	Game.prototype.start = function() {
 		if(this.firstTime) {
 			this.firstTime = false;
-			this.gameState.reset();
 			this.player.reset();
+			this.gameState.reset();
 		}
 		else {
 			this.reset();

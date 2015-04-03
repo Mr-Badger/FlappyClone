@@ -31,17 +31,17 @@ window.SoundsController = (function() {
 
 	SoundsController.prototype.updateRate = function(delta) {
 		var change = (Math.random() - 0.5) * delta * 5;
-		this.rate += change;
-		this.rate = Math.min(Math.max(this.rate, 0.5), 2);
-		this.setPlaybackRate(this.rate);
+		var newRate = Math.min(Math.max(this.rate + change, 0.5), 2);
+		this.setPlaybackRate(newRate);
 	};
 
-	SoundsController.prototype.setPlaybackRate = function(val) {
-		this.hitSound.playbackRate = val;
-		this.wingSound.playbackRate = val;
-		this.deathSound.playbackRate = val;
-		this.scoreSound.playbackRate = val;
-		this.gameSound.playbackRate = val;
+	SoundsController.prototype.setPlaybackRate = function(newRate) {
+		this.rate = newRate;
+		this.hitSound.playbackRate = newRate;
+		this.wingSound.playbackRate = newRate;
+		this.deathSound.playbackRate = newRate;
+		this.scoreSound.playbackRate = newRate;
+		this.gameSound.playbackRate = newRate;
 	};
 
 	SoundsController.prototype.stop = function(soundName) {
