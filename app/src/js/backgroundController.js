@@ -124,9 +124,8 @@ window.BackgroundController = (function() {
 		var houses = this.houses.children();
 		for(var i = 0; i < houses.length; i++) {
 			var house = $(houses[i]);
-			var posX = house.position().left;
-			house.addClass('stop');
-			house.css('left', posX);
+			var posX = house.position().left/this.game.gameEM / (house.hasClass('bg') ? 0.9 : 1);
+			house.addClass('stop').css('left', posX+'em');
 		}
 	};
 

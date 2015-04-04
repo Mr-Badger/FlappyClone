@@ -45,8 +45,8 @@ window.Game = (function() {
 	Game.prototype.start = function() {
 		if(this.firstTime) {
 			this.firstTime = false;
-			this.player.reset();
 			this.gameState.reset();
+			this.player.reset();
 		}
 		else {
 			this.reset();
@@ -55,8 +55,8 @@ window.Game = (function() {
 
 	Game.prototype.reset = function() {
 		this.lastFrame = new Date() / 1000;
-		this.player.reset();
 		this.gameState.reset();
+		this.player.reset();
 		this.backGround.reset();
 	};
 
