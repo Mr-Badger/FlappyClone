@@ -41,6 +41,7 @@ window.GameState = (function() {
 
 		if(this.score > this.game.bestScore) {
 			this.game.bestScore = this.score;
+			window.localStorage.setItem("bestScore", this.score);
 		}
 		this.pipes.stop();
 		var pos = this.ground.position().left * 1/this.game.gameEM;

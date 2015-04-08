@@ -15,7 +15,7 @@ window.MainMenu = (function() {
 		this.el.show();
 
 		this.startB.one('click touchstart', function(event) {
-			that.el.hide();
+			that.el.hide(700);
 			if(event.type === 'touchstart') {
 				setTimeout(function() {
 					that.game.start();

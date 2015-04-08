@@ -17,7 +17,7 @@ window.Game = (function() {
 		this.backGround = new window.BackgroundController(this.el.find('#background'), this, this.gameState);
 		this.mainMenu = new window.MainMenu(this.el.find('#mainMenu'), this);
 		this.gameOverMenu = new window.GameOverMenu(this.el.find('#gameover'), this);
-		this.bestScore = 0;
+		this.bestScore = this.getBestScore();
 		this.trippyBird = false;
 		this.onFrame = this.onFrame.bind(this);
 
@@ -103,6 +103,16 @@ window.Game = (function() {
 		setTimeout(function() {
 			that.player.el.removeClass('fix');
 		}, 1);
+	};
+
+	Game.prototype.getBestScore = function() {
+		var best;
+		if(window.localStorage.getItem("bestScore") === null) {
+			best = 0;
+		} else {
+			best = window.localStorage.getItem("bestScore");
+		}
+		return best;
 	};
 
 	return Game;
