@@ -388,7 +388,7 @@ h1 {
 			width: 8em;
 			border-radius: 0.9em;
 			background-color: rgb(60, 138, 206);
-			box-shadow: 0 10px 10px rgba(0,0,0,0.5);
+			box-shadow: 0 0.3em 0.4em  rgba(0,0,0,0.5);
 			padding: 0.8em 0;
 
 			.number {
@@ -405,15 +405,21 @@ h1 {
 		.button {
 			width: 11em;
 			height: 3em;
-			box-shadow: 0 10px 10px rgba(0,0,0,0.5);
-			border-radius: 0.9em;
+			box-shadow: 0 0.3em 0.4em  rgba(0,0,0,0.5);
+			border-radius: 0.5em;
 			background-color: red;
 			line-height: 3em;
 			user-select: none;
 			cursor: pointer;
+			transition: background-color 0.3s;
 		}
 		.button:hover{
 			background-color: rgb(10,137,19);
+		}
+		.button:active{
+			background-color: rgb(14,197,28);
+			box-shadow: 0 0.3em 0.4em rgba(0,0,0,0);
+			transition: background-color 0.2s;
 		}
 	}
 }
