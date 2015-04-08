@@ -27,7 +27,7 @@ window.Game = (function() {
 
 		$('#muteSound').on('click touchstart', function(event) {
 			that.sounds.toggleMute();
-			$('#muteSound').text('SOUND ' + (that.sounds.mute ? 'OFF' : 'ON'));
+			$('#muteSound').find('i').toggleClass('fa-volume-off fa-volume-up');
 			event.stopPropagation();
 		});
 	};
