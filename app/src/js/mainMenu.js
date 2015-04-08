@@ -7,12 +7,10 @@ window.MainMenu = (function() {
 		this.el = el;
 		this.game = game;
 		this.startB = $('#start');
-		this.optionsB = $('#options');
 		this.tripB = $('#trippy');
 	};
 
 	MainMenu.prototype.display = function() {
-		this.optionsB.text('SOUND ' + (this.game.sounds.mute ? 'OFF' : 'ON'));
 		that.tripB.text('TRIP ' + (that.game.trippyBird ? 'ON' : 'OFF'));
 		this.el.show();
 
@@ -27,12 +25,6 @@ window.MainMenu = (function() {
 				that.game.start();
 			}
 
-		});
-
-		this.optionsB.off('click touchstart');
-		this.optionsB.on('click touchstart', function() {
-			that.game.sounds.toggleMute();
-			that.optionsB.text('SOUND ' + (that.game.sounds.mute ? 'OFF' : 'ON'));
 		});
 
 		this.tripB.off('click touchstart');

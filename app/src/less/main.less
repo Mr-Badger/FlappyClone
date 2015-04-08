@@ -39,21 +39,6 @@ h1 {
 	background-color: @gameBGColor;
 }
 
-.scoreBox {
-	.absPos(42%; 15%; 16%; 0);
-}
-
-#score {
-	display: none;
-	position: absolute;
-	z-index: 110;
-	width: 100%;
-	font-size: 5em;
-	font-weight: 900;
-	line-height: 0;
-	.text-stroke(0.05em, rgb(69, 69, 69));
-}
-
 /*------------------------------------------
 	Bird
 ------------------------------------------*/
@@ -137,6 +122,35 @@ h1 {
 	0%  { transform: translate3d(20em, 25em, 0) }
 	50% { transform: translate3d(20em, 26.4em, 0) }
 	to  { transform: translate3d(20em, 25em, 0) }
+}
+
+
+/*------------------------------------------
+	Game GUI
+------------------------------------------*/
+
+.gui {
+	.scoreBox {
+		.absPos(42%; 15%; 16%; 0);
+	}
+
+	.icon-sound {
+		.absPos(80%; 90%; 2em; 2em);
+		z-index: 150;
+		color: black;
+	}
+}
+
+
+#score {
+	display: none;
+	position: absolute;
+	z-index: 110;
+	width: 100%;
+	font-size: 5em;
+	font-weight: 900;
+	line-height: 0;
+	.text-stroke(0.05em, rgb(69, 69, 69));
 }
 
 /*------------------------------------------

@@ -24,6 +24,12 @@ window.Game = (function() {
 		this.resizeGame();
 		$(window).on('resize', this.resizeGame);
 		window.requestAnimationFrame(this.onFrame);
+
+		$('#muteSound').on('click touchstart', function(event) {
+			that.sounds.toggleMute();
+			$('#muteSound').text('SOUND ' + (that.sounds.mute ? 'OFF' : 'ON'));
+			event.stopPropagation();
+		});
 	};
 
 	Game.prototype.onFrame = function() {
