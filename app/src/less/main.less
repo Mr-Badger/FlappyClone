@@ -330,14 +330,10 @@ h1 {
 
 		&:before {
 			content: '';
-			position: absolute;
-			left: 2.1em;
-			top: -5em;
-			width: 0;
-			height: 0;
+			.absPos(2.1em, -5em, 0, 0);
 			border-style: solid;
 			border-width: 0 0.5em 5em;
-			border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgb(151, 151, 151);
+			border-color: transparent transparent #999;
 		}
 	}
 
@@ -354,65 +350,14 @@ h1 {
 }
 
 /*------------------------------------------
-	Game over menu
+	Menus
 ------------------------------------------*/
 
-#gameover {
-	position: absolute;
-	z-index: 120;
-	top: 30%;
-	left: 10%;
-	width: 80%;
-	font-weight: 600;
+.menu {
 	display: none;
-
-	.title {
-		font-size: 4em;
-		font-weight: 900;
-		.text-stroke(0.06em, rgb(69, 69, 69));
-	}
-
-	.scoreboard {
-		display: flex;
-		justify-content: space-around;
-		margin: 1em 0;
-
-		.score {
-			width: 8em;
-			border-radius: 0.4em;
-			background-color: rgb(60, 138, 206);
-			padding: 0.8em 0;
-
-			.number {
-				font-size: 3em;
-				line-height: 1em;
-			}
-		}
-	}
-
-	.buttons {
-		display: flex;
-		justify-content: space-around;
-
-		.button {
-			width: 16em;
-			height: 3em;
-			background-color: red;
-			line-height: 3em;
-			user-select: none;
-			cursor: pointer;
-		}
-	}
-}
-
-#mainMenu {
-	position: absolute;
+	.absPos(10%, 10%, 80%, auto);
 	z-index: 120;
-	top: 10%;
-	left: 10%;
-	width: 80%;
 	font-weight: 600;
-	display: none;
 
 	.title {
 		font-size: 5em;
@@ -439,7 +384,6 @@ h1 {
 	}
 
 	.buttons {
-		margin-top: 12.36em;
 		display: flex;
 		justify-content: space-around;
 
@@ -451,6 +395,21 @@ h1 {
 			user-select: none;
 			cursor: pointer;
 		}
+	}
+}
+
+
+#gameover {
+	top: 30%;
+
+	.title {
+		font-size: 4em;
+	}
+}
+
+#mainMenu {
+	.buttons {
+		margin-top: 12.36em;
 	}
 }
 
