@@ -12,7 +12,7 @@ window.GameOverMenu = (function() {
 		this.el.show();
 		var that = this;
 		this.resetB.one('click touchstart', function(event) {
-			that.el.hide();
+			that.el.hide(700);
 			if(event.type === 'touchstart') {
 				setTimeout(function() {
 					that.game.reset();
