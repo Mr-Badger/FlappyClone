@@ -25,7 +25,7 @@ window.GameOverMenu = (function() {
 		});
 		this.backToMenuB.one('click touchstart', function() {
 			that.game.gameState.bestScore = 0;
-			that.el.hide(400);
+			that.el.fadeOut(250);
 			that.game.startMainMenu();
 		});
 	};

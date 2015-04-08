@@ -61,9 +61,11 @@ window.BackgroundController = (function() {
 	//Generates a random cloud dom object and appends it into the game
 	BackgroundController.prototype.spawnCloud = function() {
 		var puffs = 5 + Math.floor(Math.random() * 5);
-		var offsetY = 10 + Math.random() * 15;
-		var cloud = $('<div>').addClass('cloud').css('top', offsetY + 'em');
-		var i, x, y, rand;
+		var rand = Math.random();
+		var offsetY = 6 + rand * 16;
+		var cloudTime = 50 - (rand * 20);
+		var cloud = $('<div>').addClass('cloud').css({'top': offsetY + 'em', 'animation-duration': cloudTime + 's'});
+		var i, x, y;
 
 		for(i = 0; i < puffs; i++) {
 			rand = Math.random() * Math.PI * 2;
