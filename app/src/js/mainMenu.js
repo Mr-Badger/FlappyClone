@@ -12,10 +12,10 @@ window.MainMenu = (function() {
 
 	MainMenu.prototype.display = function() {
 		that.tripB.text('TRIP ' + (that.game.trippyBird ? 'ON' : 'OFF'));
-		this.el.show();
+		this.el.show(400);
 
 		this.startB.one('click touchstart', function(event) {
-			that.el.hide(700);
+			that.el.hide(400);
 			if(event.type === 'touchstart') {
 				setTimeout(function() {
 					that.game.start();

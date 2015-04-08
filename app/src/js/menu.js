@@ -9,10 +9,11 @@ window.GameOverMenu = (function() {
 	};
 
 	GameOverMenu.prototype.display = function() {
-		this.el.show();
+		this.el.show(400);
+
 		var that = this;
 		this.resetB.one('click touchstart', function(event) {
-			that.el.hide(700);
+			that.el.hide(400);
 			if(event.type === 'touchstart') {
 				setTimeout(function() {
 					that.game.reset();
@@ -23,7 +24,8 @@ window.GameOverMenu = (function() {
 			}
 		});
 		this.backToMenuB.one('click touchstart', function() {
-			that.el.hide();
+			that.game.gameState.bestScore = 0;
+			that.el.hide(400);
 			that.game.startMainMenu();
 		});
 	};

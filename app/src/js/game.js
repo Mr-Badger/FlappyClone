@@ -17,10 +17,11 @@ window.Game = (function() {
 		this.backGround = new window.BackgroundController(this.el.find('#background'), this, this.gameState);
 		this.mainMenu = new window.MainMenu(this.el.find('#mainMenu'), this);
 		this.gameOverMenu = new window.GameOverMenu(this.el.find('#gameover'), this);
+		this.highScore = this.getBestScore();
 		this.bestScore = this.getBestScore();
 		this.trippyBird = false;
-		this.onFrame = this.onFrame.bind(this);
 
+		this.onFrame = this.onFrame.bind(this);
 		this.resizeGame();
 		$(window).on('resize', this.resizeGame);
 		window.requestAnimationFrame(this.onFrame);
@@ -28,7 +29,6 @@ window.Game = (function() {
 		$('#muteSound').on('click touchstart', function(event) {
 			that.sounds.toggleMute();
 			$('#muteSound').find('i').toggleClass('fa-volume-off fa-volume-up');
-			event.stopPropagation();
 		});
 	};
 
@@ -67,16 +67,16 @@ window.Game = (function() {
 	};
 
 	Game.prototype.startMainMenu = function() {
+		$("#topScore").text(this.highScore);
 		if(this.firstTime) {
 			this.backGround.reset();
 		}
-		$("#topScore").text(this.bestScore);
 		this.mainMenu.display();
 	};
 
 	Game.prototype.startGameOverMenu = function() {
 		$("#finalScore").text(this.gameState.score);
-		$("#bestScore").text(this.bestScore);
+		$("#bestScore").text(this.gameState.bestScore);
 		this.gameOverMenu.display();
 	};
 

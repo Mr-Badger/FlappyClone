@@ -97,7 +97,7 @@ h1 {
 
 	&.floating {
 		animation: floating 0.8s infinite;
-
+		//Resize fix
 		&.fix {
 			animation: none;
 			transform: translate3d(20em, 25em, 0) !important;
@@ -124,7 +124,6 @@ h1 {
 	to  { transform: translate3d(20em, 25em, 0) }
 }
 
-
 /*------------------------------------------
 	Game GUI
 ------------------------------------------*/
@@ -150,14 +149,13 @@ h1 {
 		text-align: left;
 		color: #000;
 
-		transition: background-color 0.3s;
+		transition: background-color 0.25s;
 
 		&:hover {
 			background-color: #6F0;
 		}
 	}
 }
-
 
 #score {
 	display: none;
@@ -393,6 +391,7 @@ h1 {
 	.title {
 		font-size: 5em;
 		font-weight: 900;
+		white-space: nowrap;
 		.text-stroke(0.06em, rgb(69, 69, 69));
 	}
 
@@ -405,7 +404,8 @@ h1 {
 			width: 8em;
 			border-radius: 0.9em;
 			background-color: rgb(60, 138, 206);
-			box-shadow: 0 0.6em 0.6em  rgba(0,0,0,0.5);
+			background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.25)100%);
+			box-shadow: 0 0.3em 0.6em  rgba(0,0,0,0.5);
 			padding: 0.8em 0;
 
 			.number {
@@ -418,26 +418,29 @@ h1 {
 	.buttons {
 		display: flex;
 		justify-content: space-around;
-
 		.button {
 			width: 15em;
 			height: 3em;
-			box-shadow: 0 0.6em 0.6em  rgba(0,0,0,0.5);
+			box-shadow: 0 0.3em 0.6em  rgba(0,0,0,0.5);
 			border-radius: 0.5em;
 			background-color: red;
+			background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.25) 100%);
 			line-height: 3em;
 			user-select: none;
 			cursor: pointer;
 			transition: background-color 0.3s;
+
+			&:hover {
+				background-color: rgb(10, 137, 19);
+			}
+
+			&:active {
+				background-color: rgb(14, 197, 28);
+				box-shadow: 0 0.3em 0.6em rgba(0,0,0,0);
+				transition: background-color 0.2s;
+			}
 		}
-		.button:hover{
-			background-color: rgb(10,137,19);
-		}
-		.button:active{
-			background-color: rgb(14,197,28);
-			box-shadow: 0 0.6em 0.6em rgba(0,0,0,0);
-			transition: background-color 0.2s;
-		}
+
 	}
 }
 

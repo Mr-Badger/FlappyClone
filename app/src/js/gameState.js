@@ -4,6 +4,7 @@ window.GameState = (function() {
 	var GameState = function(game) {
 		this.game = game;
 		this.score = 0;
+		this.bestScore = 0;
 		this.distance = 0;
 		this.gameStarted = true;
 		this.gameEnded = true;
@@ -39,9 +40,12 @@ window.GameState = (function() {
 		this.game.sounds.play('hitSound');
 		this.game.sounds.play('deathSound', 400);
 
-		if(this.score > this.game.bestScore) {
-			this.game.bestScore = this.score;
-			window.localStorage.setItem("bestScore", this.score);
+		if(this.score > this.bestScore) {
+			this.bestScore = this.score;
+			if(this.bestScore > this.game.highScore) {
+				this.game.highScore = this.bestScore;
+				window.localStorage.setItem("bestScore", this.bestScore);
+			}
 		}
 		this.pipes.stop();
 		var pos = this.ground.position().left * 1/this.game.gameEM;
