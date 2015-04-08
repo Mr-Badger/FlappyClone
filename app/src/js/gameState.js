@@ -39,10 +39,13 @@ window.GameState = (function() {
 	GameState.prototype.end = function() {
 		this.game.sounds.play('hitSound');
 		this.game.sounds.play('deathSound', 400);
-
+		var newRecord = false;
 		if(this.score > this.bestScore) {
 			this.bestScore = this.score;
+
 			if(this.bestScore > this.game.highScore) {
+				newRecord = true;
+				this.game.sounds.play('highScoreSound');
 				this.game.highScore = this.bestScore;
 				window.localStorage.setItem("bestScore", this.bestScore);
 			}
@@ -53,7 +56,7 @@ window.GameState = (function() {
 		this.ground.addClass('stop');
 
 		this.gameEnded = true;
-		this.game.startGameOverMenu();
+		this.game.startGameOverMenu(newRecord);
 		this.game.backGround.stop();
 		this.scoreN.hide();
 	};

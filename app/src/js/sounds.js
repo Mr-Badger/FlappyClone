@@ -7,6 +7,7 @@ window.SoundsController = (function() {
 		this.deathSound = new Audio('src/sounds/sfx_die.mp3');
 		this.scoreSound = new Audio('src/sounds/sfx_point.mp3');
 		this.gameSound = new Audio('src/sounds/gameSound.mp3');
+		this.highScoreSound = new Audio('src/sounds/tada.mp3');
 		this.gameSound.loop = true;
 		this.rate = 1;
 		this.volume = 0.05;

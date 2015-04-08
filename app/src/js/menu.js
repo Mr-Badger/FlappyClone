@@ -6,10 +6,18 @@ window.GameOverMenu = (function() {
 		this.game = game;
 		this.resetB = $('#reset');
 		this.backToMenuB = $('#backToMenu');
+		this.newRecord = this.el.find('.newRecord');
 	};
 
-	GameOverMenu.prototype.display = function() {
+	GameOverMenu.prototype.display = function(isRecord) {
+		isRecord = isRecord || false;
 		this.el.show(400);
+		if(this.isRecord) {
+			this.newRecord.css('visibility', 'visible');
+		}
+		else {
+			this.newRecord.css('visibility', 'hidden');
+		}
 
 		var that = this;
 		this.resetB.one('click touchstart', function(event) {

@@ -74,10 +74,10 @@ window.Game = (function() {
 		this.mainMenu.display();
 	};
 
-	Game.prototype.startGameOverMenu = function() {
+	Game.prototype.startGameOverMenu = function(isRecord) {
 		$("#finalScore").text(this.gameState.score);
 		$("#bestScore").text(this.gameState.bestScore);
-		this.gameOverMenu.display();
+		this.gameOverMenu.display(isRecord);
 	};
 
 	//Resizes the game too the biggest possible size
