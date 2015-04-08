@@ -135,11 +135,26 @@ h1 {
 	}
 
 	.icon-sound {
-		.absPos(auto; auto; 2em; 2em);
-		right: 8%;
-		bottom: 4%;
+		position: absolute;
 		z-index: 150;
-		color: black;
+		right: 1em;
+		bottom: 1em;
+		width: 2.6em;
+		font-size: 1.35em;
+
+		padding: 0.1em 0.3em;
+		border: 0.15em solid;
+		border-radius: 0.4em;
+		background-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.35) 100%);
+		background-color: #FFF;
+		text-align: left;
+		color: #000;
+
+		transition: background-color 0.3s;
+
+		&:hover {
+			background-color: #6F0;
+		}
 	}
 }
 
