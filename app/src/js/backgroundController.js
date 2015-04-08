@@ -63,7 +63,7 @@ window.BackgroundController = (function() {
 		var puffs = 5 + Math.floor(Math.random() * 5);
 		var rand = Math.random();
 		var offsetY = 6 + rand * 16;
-		var cloudTime = 50 - (rand * 20);
+		var cloudTime = 60 - (rand * 30);
 		var cloud = $('<div>').addClass('cloud').css({'top': offsetY + 'em', 'animation-duration': cloudTime + 's'});
 		var i, x, y;
 

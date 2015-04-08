@@ -12,7 +12,7 @@ window.GameOverMenu = (function() {
 	GameOverMenu.prototype.display = function(isRecord) {
 		isRecord = isRecord || false;
 		this.el.show(400);
-		if(this.isRecord) {
+		if(isRecord) {
 			this.newRecord.css('visibility', 'visible');
 		}
 		else {
