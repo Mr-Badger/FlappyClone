@@ -4,34 +4,31 @@ window.GameState = (function() {
 	var GameState = function(game) {
 		this.game = game;
 		this.score = 0;
+		this.bestScore = 0;
 		this.distance = 0;
-		this.gameStarted = false;
-		this.gameEnded = false;
+		this.gameStarted = true;
+		this.gameEnded = true;
 		this.scoreN = $('#score');
 		this.ground = $('#ground');
-		this.pipes = new window.Pipes($('#pipes'));
+		this.pipes = new window.Pipes($('#pipes'), game);
 	};
 
 	GameState.prototype.onFrame = function(delta) {
-		if(this.gameStarted) {
-			if(!this.gameEnded) {
-				this.distance += delta;
-				this.pipes.trySpawn(this.distance);
-				this.pipes.checkPipe();
-			}
+		if(this.gameStarted && !this.gameEnded) {
+			this.distance += delta;
+			this.pipes.trySpawn(this.distance);
+			this.pipes.cullPipes();
+
 			var points = (this.distance - 3.7);
 			if(points > 0) {
-				var score = Math.floor(points / 1.8);
-				if(score > this.score) {
-					this.score = score;
-					this.scoreN.text(score);
-					if(this.game.sound) {
-						this.game.scoreSound.play();
-					}
+				var newscore = Math.floor(points / 1.8);
+				if(newscore > this.score) {
+					this.score = newscore;
+					this.scoreN.text(newscore);
+					this.game.sounds.play('scoreSound');
 				}
 			}
 		}
-
 	};
 
 	GameState.prototype.start = function() {
@@ -40,15 +37,27 @@ window.GameState = (function() {
 	};
 
 	GameState.prototype.end = function() {
-		if(this.score > this.game.bestScore) {
-			this.game.bestScore = this.score;
+		this.game.sounds.play('hitSound');
+		this.game.sounds.play('deathSound', 400);
+		var newRecord = false;
+		if(this.score > this.bestScore) {
+			this.bestScore = this.score;
+
+			if(this.bestScore > this.game.highScore) {
+				newRecord = true;
+				this.game.sounds.play('highScoreSound');
+				this.game.highScore = this.bestScore;
+				window.localStorage.setItem("bestScore", this.bestScore);
+			}
 		}
 		this.pipes.stop();
-		this.ground.css('left', this.ground.position().left);
-		this.ground.removeClass('slide');
+		var pos = this.ground.position().left * 1/this.game.gameEM;
+		this.ground.css('left', pos + 'em');
+		this.ground.addClass('stop');
 
 		this.gameEnded = true;
-		this.game.startGameOverMenu();
+		this.game.startGameOverMenu(newRecord);
+		this.game.backGround.stop();
 		this.scoreN.hide();
 	};
 
@@ -58,7 +67,7 @@ window.GameState = (function() {
 		this.gameEnded = false;
 		this.score = 0;
 		this.distance = 0;
-		this.ground.addClass('slide');
+		this.ground.removeClass('stop');
 		this.ground.css('left', 0);
 		this.scoreN.text(0);
 	};

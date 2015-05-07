@@ -1,32 +1,39 @@
 window.MainMenu = (function() {
 	'use strict';
+	var that;
 
 	var MainMenu = function(el, game) {
+		that = this;
 		this.el = el;
 		this.game = game;
 		this.startB = $('#start');
-		this.optionsB = $('#options');
+		this.tripB = $('#trippy');
 	};
 
 	MainMenu.prototype.display = function() {
-		this.el.show();
-		var that = this;
-		this.startB.one('click touchstart', function() {
-			that.el.hide();
-			that.game.start();
-			that.optionsB.off('click touchstart');
-		});
-		this.optionsB.on('click touchstart', function() {
-			if(!that.game.sound) {
-				that.optionsB.text('SOUND ON');
-				that.game.sound = true;
-				that.game.gameSound.play();
+		that.tripB.text('TRIP ' + (that.game.trippyBird ? 'ON' : 'OFF'));
+		this.el.show(400);
+
+		this.startB.one('click touchstart', function(event) {
+			that.el.hide(400);
+			if(event.type === 'touchstart') {
+				setTimeout(function() {
+					that.game.start();
+				}, 100);
 			}
 			else {
-				that.optionsB.text('SOUND OFF');
-				that.game.sound = false;
-				that.game.gameSound.pause();
-				that.game.gameSound.currentTime = 0;
+				that.game.start();
+			}
+
+		});
+
+		this.tripB.off('click touchstart');
+		this.tripB.on('click touchstart', function() {
+			that.game.trippyBird = !that.game.trippyBird;
+			that.game.el.toggleClass('trippy', that.game.trippyBird);
+			that.tripB.text('TRIP ' + (that.game.trippyBird ? 'ON' : 'OFF'));
+			if(!that.game.trippyBird) {
+				that.game.sounds.setPlaybackRate(1);
 			}
 		});
 	};

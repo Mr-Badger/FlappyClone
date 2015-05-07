@@ -10,88 +10,66 @@
 	<title>Flappy Clone</title>
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Sarpanch:400,600,900">
 	<link rel="stylesheet" href="dist/css/main.min.css">
+	<link rel="stylesheet" type="text/css" href="components/fontawesome/css/font-awesome.min.css" />
 	<script src="components/jquery/dist/jquery.min.js"></script>
-	<script src="dist/js/build.js"></script>
-
+	<script src="dist/js/build.min.js"></script>
 </head>
 <body>
-	<audio id="scoreSound" src="src/sounds/sfx_point.ogg" type="audio/ogg"></audio>
-	<audio id="hitSound" src="src/sounds/sfx_hit.ogg" type="audio/ogg"></audio>
-	<audio id="deathSound" src="src/sounds/sfx_die.ogg" type="audio/ogg"></audio>
-	<audio id="wingSound" src="src/sounds/sfx_wing.ogg" type="audio/ogg"></audio>
-	<audio id="gameSound" src="src/sounds/gameSound.ogg" type="audio/ogg"></audio>
-	<div class="container">
-		<h1>Flappy Clone</h1>
-		<div id="game">
-			<div id="score">0</div>
-			<div id="bird" class="floating">
-				<div class="eye"></div>
-				<div class="mouth"></div>
-				<div class="wings"></div>
-			</div>
+	<div id="game">
 
-			<div id="objects">
-				<div id="ground" class="slide"></div>
-				<div id="pipes"></div>
-			</div>
-			<div id="background">
-				<div id="cloudlayer">
-					<div class="cloud">
-						<div class="puff"></div>
-						<div class="puff"></div>
-						<div class="puff"></div>
-						<div class="puff"></div>
-					</div>
+		<div id="bird" class="floating">
+			<div class="eye"></div>
+			<div class="mouth"></div>
+			<div class="wings"></div>
+		</div>
 
-					<div class="cloud" style="left: 20%; top: 15%">
-						<div class="puff"></div>
-						<div class="puff"></div>
-						<div class="puff"></div>
-					</div>
-					<div class="cloud" style="left: 50%; top: 15%">
-						<div class="puff"></div>
-						<div class="puff"></div>
-						<div class="puff"></div>
-					</div>
-				</div>
-				<div>
-					<div class="house type3"></div>
+		<div id="objects">
+			<div id="ground"></div>
+			<div id="pipes"></div>
+		</div>
+
+		<div id="background">
+			<div id="cloudlayer"></div>
+			<div id="houselayer"></div>
+		</div>
+
+		<div class="gui">
+			<div class="scoreBox"><div id="score">0</div></div>
+			<div class="icon-sound" id="muteSound"><i class="fa fa-volume-off fa-2x"></i></div>
+		</div>
+
+		<div class="menu" id="mainMenu">
+			<div class="title">Flappy Clone</div>
+			<div class="scoreboard">
+				<div class="score">
+					<div>HIGH SCORE</div>
+					<div class="number" id="topScore">0</div>
 				</div>
 			</div>
-
-			<div id="mainMenu">
-				<div class="title">Menu</div>
-				<div class="scoreboard">
-					<div class="score">
-						<div>BEST</div>
-						<div class="number" id="topScore">0</div>
-					</div>
-				</div>
-				<div class="buttons">
-					<div class="button" id="start">START</div>
-					<div class="button" id="options">SOUND ON</div>
-				</div>
-			</div>
-
-			<div id="gameover">
-				<div class="title">GAME OVER</div>
-				<div class="scoreboard">
-					<div class="score">
-						<div>SCORE</div>
-						<div class="number" id="finalScore">0</div>
-					</div>
-					<div class="score">
-						<div>BEST</div>
-						<div class="number" id="bestScore">0</div>
-					</div>
-				</div>
-				<div class="buttons">
-					<div class="button" id="reset">RESET</div>
-					<div class="button" id="backToMenu">BACK TO MENU</div>
-				</div>
+			<div class="buttons">
+				<div class="button" id="start">START</div>
+				<div class="button" id="trippy">TRIP OFF</div>
 			</div>
 		</div>
 
+		<div class="menu" id="gameover">
+			<div class="title newRecord">NEW HIGH SCORE</div>
+			<div class="title">GAME OVER</div>
+			<div class="scoreboard">
+				<div class="score">
+					<div>SCORE</div>
+					<div class="number" id="finalScore">0</div>
+				</div>
+				<div class="score">
+					<div>BEST</div>
+					<div class="number" id="bestScore">0</div>
+				</div>
+			</div>
+			<div class="buttons">
+				<div class="button" id="reset">RESET</div>
+				<div class="button" id="backToMenu">BACK TO MENU</div>
+			</div>
+		</div>
 	</div>
 	<script src="//localhost:1337/livereload.js"></script>
 </body>

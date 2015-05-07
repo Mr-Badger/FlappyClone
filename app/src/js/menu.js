@@ -6,17 +6,34 @@ window.GameOverMenu = (function() {
 		this.game = game;
 		this.resetB = $('#reset');
 		this.backToMenuB = $('#backToMenu');
+		this.newRecord = this.el.find('.newRecord');
 	};
 
-	GameOverMenu.prototype.display = function() {
-		this.el.show();
+	GameOverMenu.prototype.display = function(isRecord) {
+		isRecord = isRecord || false;
+		this.el.show(400);
+		if(isRecord) {
+			this.newRecord.css('visibility', 'visible');
+		}
+		else {
+			this.newRecord.css('visibility', 'hidden');
+		}
+
 		var that = this;
-		this.resetB.one('click touchstart', function() {
-			that.el.hide();
-			that.game.reset();
+		this.resetB.one('click touchstart', function(event) {
+			that.el.hide(400);
+			if(event.type === 'touchstart') {
+				setTimeout(function() {
+					that.game.reset();
+				}, 100);
+			}
+			else {
+				that.game.reset();
+			}
 		});
 		this.backToMenuB.one('click touchstart', function() {
-			that.el.hide();
+			that.game.gameState.bestScore = 0;
+			that.el.fadeOut(250);
 			that.game.startMainMenu();
 		});
 	};

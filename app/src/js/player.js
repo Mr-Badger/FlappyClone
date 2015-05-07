@@ -1,9 +1,10 @@
 window.Player = (function() {
 	'use strict';
+	var that;
 
 	var Controls = window.Controls;
 
-	var FLAP = 0.7;
+	var FLAP = 0.75;
 	var INITIAL_POSITION_X = 20;
 	var INITIAL_POSITION_Y = 25;
 	var GRAVITY = 2;
@@ -11,11 +12,12 @@ window.Player = (function() {
 	var birdClickRate = 200; //ms
 
 	var Player = function(el, game, gameState) {
+		that = this;
 		this.el = el;
 		this.game = game;
 		this.gameState = gameState;
-		this.bWidth = 0.1 * el.outerWidth();
-		this.bHeight = 0.1 * el.outerHeight();
+		this.bWidth = (1 / this.game.gameEM) * el.outerWidth();
+		this.bHeight = (1 / this.game.gameEM) * el.outerHeight();
 		this.reset();
 	};
 
@@ -25,7 +27,9 @@ window.Player = (function() {
 		this.rot = 0;
 		this.canFlap = true;
 		this.hasCrashed = false;
-		this.el.addClass('floating');
+		if(!this.gameState.gameStarted) {
+			this.el.addClass('floating');
+		}
 	};
 
 	Player.prototype.onFrame = function(delta) {
@@ -38,25 +42,24 @@ window.Player = (function() {
 		if(!this.gameState.gameEnded) {
 			this.checkInputs();
 
-			var that = this;
-			$('.pipeSet').each(function(key, item) {
-				var pipeSet = $(item);
-				var top = pipeSet.position().top;
-				pipeSet.children('.pipe').each(function(key, item) {
-					var pipe = $(item);
-					pipe.rTop = pipe.position().top + top;
+			var pipes = this.gameState.pipes.pipes;
+			for(var i = 0; i < pipes.length; i++) {
+				var offsetY = pipes[i].position().top;
+				var pipeSet = pipes[i].children();
+				for(var j = 0; j < pipeSet.length; j++) {
+					var pipe = $(pipeSet[j]);
+					pipe.rTop = pipe.position().top + offsetY;
 					if(pipe.rTop < 0) {
 						var offset = 5000;
 						pipe.rTop -= offset;
 						pipe.rHeight = pipe.outerHeight() + offset;
 					}
-					if(that.checkCollisionWithObject(pipe)) {
-						that.speed = 0.7;
-						that.gameState.end();
+					if(this.checkCollisionWithObject(pipe)) {
+						this.gameState.end();
 						return;
 					}
-				});
-			});
+				}
+			}
 		}
 		else if(this.hasCrashed) {
 			return;
@@ -88,9 +91,7 @@ window.Player = (function() {
 				this.speed = -FLAP;
 				this.canFlap = false;
 				this.lastFlapped = new Date();
-				if(this.game.sound){
-					this.game.wingSound.play();
-				}
+				this.game.sounds.play('wingSound');
 			}
 		}
 		else {
@@ -106,6 +107,10 @@ window.Player = (function() {
 	};*/
 
 	Player.prototype.setPositionAndRotation = function(delta) {
+		if(this.gameState.gameEnded && this.speed < 0.7) {
+			this.speed = 0.7;
+		}
+
 		this.speed += delta * GRAVITY;
 
 		if(this.speed > MAXSPEED) {
@@ -138,10 +143,10 @@ window.Player = (function() {
 
 	Player.prototype.checkCollisionWithObject = function(object) {
 		var oPosition = object.position(),
-			oX = (object.rLeft || oPosition.left) * 0.1,
-			oY = (object.rTop || oPosition.top) * 0.1,
-			oWidth = object.outerWidth() * 0.1,
-			oHeight = (object.rHeight || object.outerHeight()) * 0.1;
+			oX = (object.rLeft || oPosition.left) * (1/this.game.gameEM),
+			oY = (object.rTop || oPosition.top) * (1/this.game.gameEM),
+			oWidth = object.outerWidth() * (1/this.game.gameEM),
+			oHeight = (object.rHeight || object.outerHeight()) * (1/this.game.gameEM);
 
 		return ((this.pos.x < oX + oWidth) &&
 				(this.pos.x + this.bWidth > oX) &&

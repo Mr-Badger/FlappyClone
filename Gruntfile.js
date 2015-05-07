@@ -17,6 +17,7 @@ module.exports = function(grunt) {
         devel:  true,
         globals: {
           _:       false,
+          Audio:   false,
           jQuery:  false,
           window:  false,
           console: false,
@@ -35,6 +36,12 @@ module.exports = function(grunt) {
       css: {
         files: ['app/src/**/*.less'],
         tasks: ['less', 'postcss', 'cssmin'],
+        options: {
+          livereload: 1337,
+        },
+      },
+      html: {
+        files: ['app/*.html'],
         options: {
           livereload: 1337,
         },

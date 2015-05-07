@@ -14,44 +14,30 @@
 	Main components
 ------------------------------------------*/
 
-.container {
-	margin: 0 auto;
-	max-width: 480px;
-	font-family: 'Sarpanch', sans-serif;
-	text-align: center;
-	user-select: none;
-	cursor: pointer;
-
-	h1 {
-		letter-spacing: 0.3em;
-	}
-}
-
 body {
+	margin: 0;
+	overflow: hidden;
 	background-color: @bgColor;
 	color: white;
 }
 
+h1 {
+	letter-spacing: 0.3em;
+}
+
 #game {
+	font-family: 'Sarpanch', sans-serif;
+	text-align: center;
+	cursor: pointer;
+	user-select: none;
 	font-size: @gameEm;
 	position: relative;
 	overflow: hidden;
 	width: @gameWidth;
 	height: @gameWidth * @gameRatio;
+	background-image: linear-gradient(to top, #70C5CE 0%, #70C5CE 60%, #3A666B 100%);
 	background-color: @gameBGColor;
 }
-
-#score {
-	position: absolute;
-	display: none;
-	z-index: 110;
-	top: 15%;
-	width: 100%;
-	font-size: 5em;
-	font-weight: 900;
-	.text-stroke(3px, rgb(69, 69, 69));
-}
-
 
 /*------------------------------------------
 	Bird
@@ -111,6 +97,11 @@ body {
 
 	&.floating {
 		animation: floating 0.8s infinite;
+		//Resize fix
+		&.fix {
+			animation: none;
+			transform: translate3d(20em, 25em, 0) !important;
+		}
 	}
 
 	&.flying {
@@ -118,6 +109,63 @@ body {
 			animation: flapping 0.35s infinite;
 		}
 	}
+}
+
+@keyframes flapping {
+	0%   { transform: rotateX(60deg) }
+	40%  { transform: rotateX(-160deg) }
+	90%  { transform: rotateX(40deg) }
+	100% { transform: rotateX(60deg) }
+}
+
+@keyframes floating {
+	0%  { transform: translate3d(20em, 25em, 0) }
+	50% { transform: translate3d(20em, 26.4em, 0) }
+	to  { transform: translate3d(20em, 25em, 0) }
+}
+
+/*------------------------------------------
+	Game GUI
+------------------------------------------*/
+
+.gui {
+	.scoreBox {
+		.absPos(42%; 15%; 16%; 0);
+	}
+
+	.icon-sound {
+		position: absolute;
+		z-index: 150;
+		right: 1em;
+		bottom: 1em;
+		width: 2.6em;
+		font-size: 1.35em;
+
+		padding: 0.1em 0.3em;
+		border: 0.15em solid;
+		border-radius: 0.4em;
+		background-image: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.25) 100%);
+		background-color: #FFF;
+		text-align: left;
+		color: #000;
+
+		transition: background-color 0.25s;
+
+		&:hover {
+			background-color: #6F0;
+		}
+	}
+}
+
+#score {
+	display: none;
+	position: absolute;
+	z-index: 110;
+	width: 100%;
+	font-size: 5em;
+	font-weight: 900;
+	line-height: 0;
+	.text-stroke(0.05em, rgb(69, 69, 69));
 }
 
 /*------------------------------------------
@@ -130,20 +178,22 @@ body {
 @groundHeight: 8.0em;
 
 #ground {
-	.absPos(0; auto; 106%; 8.0em);
+	.absPos(0; auto; @gameWidth + 4em; 8.0em);
 	bottom: 0;
 	z-index: 120;
 	border-top: 0.35em solid @outlineC;
 	background-color: @stoneC;
 
-	&.slide {
-		animation: groundslide 0.2s infinite;
-		animation-timing-function: linear;
+	animation: groundslide 0.2s infinite; //15em per sec
+	animation-timing-function: linear;
+
+	&.stop {
+		animation: none;
 	}
 
 	&:after {
 		content: '';
-		.absPos(0; 0; @gameWidth + 3em; 1.6em);
+		.absPos(0; 0; @gameWidth + 4em; 1.6em);
 		background: linear-gradient(125deg,
 									@grassC 0%, @grassC 30%,
 									lighten(@grassC, 15%) 40%,
@@ -156,12 +206,18 @@ body {
 	}
 }
 
+@keyframes groundslide {
+	0% { transform: translateX(0) }
+	to { transform: translateX(-6.25%) }
+}
+
 @pipeC: rgb(115, 190, 46);
 @pipeGap: 15em;
 @pipeHeight: 40em;
 
 .pipeSet {
-	position: relative;
+	position: absolute;
+	z-index: 20;
 	height: 100%;
 	top: 20em;
 
@@ -204,6 +260,11 @@ body {
 	}
 }
 
+@keyframes pipeslide {
+	0% { transform: translateX(@gameWidth + 12em) }
+	to { transform: translateX(0) }
+}
+
 /*------------------------------------------
 	Background objects
 ------------------------------------------*/
@@ -213,9 +274,10 @@ body {
 @cloudStroke: 0.6em;
 
 .cloud {
-	position: absolute;
-	left: 75%;
-	top: 30%;
+	.absPos(-14em; auto; 0; 0);
+
+	animation: cloudslide 30s 1;
+	animation-timing-function: linear;
 
 	.puff {
 		position: relative;
@@ -241,22 +303,12 @@ body {
 			left: -0.2em;
 			top: -0.4em;
 		}
-
-		&:nth-child(2) {
-			left: 2.0em;
-			top: 1.0em;
-		}
-
-		&:nth-child(3) {
-			left: 2.5em;
-			top: -0.8em;
-		}
-
-		&:nth-child(4) {
-			left: -2.2em;
-			top: -1.0em;
-		}
 	}
+}
+
+@keyframes cloudslide {
+	0% { transform: translateX(@gameWidth + 14em) }
+	to { transform: translateX(0) }
 }
 
 @houseC: rgb(200, 200, 200);
@@ -264,16 +316,23 @@ body {
 @houseStrokeC: rgb(150, 150, 150);
 
 .house {
-	.absPos(-6em; auto; 5.6em; 10em);
+	.absPos(@gameWidth + 6em; auto; 5.6em; 10em);
 	z-index: 10;
 	bottom: @groundHeight;
 	padding-left: 0.2em;
 	background-color: @houseC;
 	border: 0.35em solid @houseStrokeC;
 	border-bottom: none;
+	transition: transform 15s linear;
 
-	animation: houseslide 5s 1;
-	animation-timing-function: linear;
+	&.slide {
+		transform: translateX(-(@gameWidth + 12em));
+	}
+
+	&.stop {
+		transition: none;
+		transform: none;
+	}
 
 	&:after {
 		content: '█ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █';
@@ -300,14 +359,10 @@ body {
 
 		&:before {
 			content: '';
-			position: absolute;
-			left: 2.1em;
-			top: -5em;
-			width: 0;
-			height: 0;
+			.absPos(2.1em, -5em, 0, 0);
 			border-style: solid;
 			border-width: 0 0.5em 5em;
-			border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgb(151, 151, 151);
+			border-color: transparent transparent #999;
 		}
 	}
 
@@ -318,23 +373,26 @@ body {
 	}
 }
 
+@keyframes houseslide {
+	0% { transform: translateX(@gameWidth + 12em) }
+	to { transform: translateX(0) }
+}
+
 /*------------------------------------------
-	Game over menu
+	Menus
 ------------------------------------------*/
 
-#gameover, #mainMenu {
-	position: absolute;
-	z-index: 120;
-	top: 30%;
-	left: 10%;
-	width: 80%;
-	font-weight: 600;
+.menu {
 	display: none;
+	.absPos(10%, 10%, 80%, auto);
+	z-index: 120;
+	font-weight: 600;
 
 	.title {
-		font-size: 3.5em;
+		font-size: 5em;
 		font-weight: 900;
-		.text-stroke(2px, rgb(69, 69, 69));
+		white-space: nowrap;
+		.text-stroke(0.06em, rgb(69, 69, 69));
 	}
 
 	.scoreboard {
@@ -344,8 +402,10 @@ body {
 
 		.score {
 			width: 8em;
-			border-radius: 0.4em;
+			border-radius: 0.9em;
 			background-color: rgb(60, 138, 206);
+			background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.25)100%);
+			box-shadow: 0 0.3em 0.6em  rgba(0,0,0,0.5);
 			padding: 0.8em 0;
 
 			.number {
@@ -358,18 +418,103 @@ body {
 	.buttons {
 		display: flex;
 		justify-content: space-around;
-
 		.button {
-			width: 16em;
+			width: 15em;
 			height: 3em;
+			box-shadow: 0 0.3em 0.6em  rgba(0,0,0,0.5);
+			border-radius: 0.5em;
 			background-color: red;
+			background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.25) 100%);
 			line-height: 3em;
 			user-select: none;
 			cursor: pointer;
+			transition: background-color 0.3s;
+
+			&:hover {
+				background-color: rgb(10, 137, 19);
+			}
+
+			&:active {
+				background-color: rgb(14, 197, 28);
+				box-shadow: 0 0.3em 0.6em rgba(0,0,0,0);
+				transition: background-color 0.2s;
+			}
+		}
+
+	}
+}
+
+
+#gameover {
+	top: 20%;
+
+	.title {
+		font-size: 4em;
+	}
+}
+
+#mainMenu {
+	.buttons {
+		margin-top: 12em;
+	}
+}
+
+/*------------------------------------------
+	Flappy Trip
+------------------------------------------*/
+
+#game {
+	&.trippy {
+		animation: trippy 6s infinite linear;
+		color: rgb(255, 255, 0);
+
+		.pipeSet {
+			animation: trippypipe 4s infinite linear;
+		}
+
+		.puff:before {
+			background-color: rgb(255, 0, 255);
+		}
+
+		#houselayer {
+			.house {
+				background-color: rgb(0, 160, 160);
+
+				&.bg {
+					background-color: rgb(160, 0, 160);
+				}
+			}
+		}
+
+		#bird {
+			.eye {
+				background-color: black;
+				&:after {
+					.absPos(0.6em; 0.3em; 0.8em; 0.9em);
+					background-color: white;
+					animation: eyeshrink 2s infinite ease-in-out;
+				}
+			}
 		}
 	}
 }
 
+@keyframes trippy {
+	0%  { filter: hue-rotate(0deg) invert(1) }
+	to  { filter: hue-rotate(360deg) invert(1) }
+}
+
+@keyframes trippypipe {
+	0%   { transform: translateY(-2em) }
+	50%  { transform: translateY(4em) }
+	100% { transform: translateY(-2em) }
+}
+
+@keyframes eyeshrink {
+	0%  { transform: scale(0.8) }
+	50% { transform: scale(1.1) }
+	to  { transform: scale(0.8) }
+}
 
 /*------------------------------------------
 	Usefull mixins
@@ -392,36 +537,4 @@ body {
 				 @width -@width 0 @color,
 				 -@width @width 0 @color,
 				 -@width -@width 0 @color;
-}
-
-/*------------------------------------------
-	ANIMATIONS
-------------------------------------------*/
-
-@keyframes flapping {
-	0%   { transform: rotateX(60deg) }
-	40%  { transform: rotateX(-160deg) }
-	90%  { transform: rotateX(40deg) }
-	100% { transform: rotateX(60deg) }
-}
-
-@keyframes floating {
-	0%  { transform: translate3d(20em, 25em, 0) }
-	50% { transform: translate3d(20em, 26.4em, 0) }
-	to  { transform: translate3d(20em, 25em, 0) }
-}
-
-@keyframes houseslide {
-	0% { transform: translateX(@gameWidth + 8em) }
-	to { transform: translateX(0) }
-}
-
-@keyframes groundslide {
-	0% { transform: translateX(0) }
-	to { transform: translateX(-3em) }
-}
-
-@keyframes pipeslide {
-	0% { transform: translateX(@gameWidth + 12em) }
-	to { transform: translateX(0) }
 }
